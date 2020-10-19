@@ -11,6 +11,7 @@ public class AccountService {
 	
 	public String selectAuthor() throws SQLException{
 		String result = "";
+		
 		PreparedStatement preparedStatement = DBHelper.getPreparedStatement(SELECT_AUTHOR);
 		preparedStatement.setInt(1, 1);
 		// Step 3: Execute the query or update query
