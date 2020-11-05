@@ -55,4 +55,7 @@ public abstract class AbstractMainGUI extends JFrame implements ActionListener {
 	public static void showErrDialog(){
 		JOptionPane.showMessageDialog(null, ResultMessage.ERR_SELECT, ResultMessage.DIALOG_INFORM, JOptionPane.ERROR_MESSAGE);
 	}
+	public static void showDialog(ResultMessage resultMessage){
+		JOptionPane.showMessageDialog(null, resultMessage.getMsgCode(), resultMessage.getContent(), JOptionPane.INFORMATION_MESSAGE);
+	}
 }

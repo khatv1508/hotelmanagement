@@ -6,9 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DBHelper {
-	private static String jdbcURL = "jdbc:sqlserver://localhost;databaseName=demo_rest;";
-    private static String jdbcUsername = "sa";
-    private static String jdbcPassword = "nttdv@123";
+	private static String jdbcURL = "jdbc:mysql://localhost:3306/hotelmanagement?useSSL=false";
+    private static String jdbcUsername = "root";
+    private static String jdbcPassword = "root";
     
     // khoi tao connection toi DB
     public static PreparedStatement getPreparedStatement(String query) {
