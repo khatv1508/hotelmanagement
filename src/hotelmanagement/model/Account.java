@@ -4,7 +4,6 @@ public class Account {
 	private int accountId;
 	private String accountName;
 	private String accountPass;
-	private String accountDisplay;
 	
 	public int getAccountId() {
 		return accountId;
@@ -23,11 +22,5 @@ public class Account {
 	}
 	public void setAccountPass(String accountPass) {
 		this.accountPass = accountPass;
-	}
-	public String getAccountDisplay() {
-		return accountDisplay;
-	}
-	public void setAccountDisplay(String accountDisplay) {
-		this.accountDisplay = accountDisplay;
 	}
 }

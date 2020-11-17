@@ -1,6 +1,5 @@
 package hotelmanagement.gui;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -19,85 +19,69 @@ import hotelmanagement.service.AccountService;
 
 public class LoginGUI extends JFrame {
 
-	private static final long serialVersionUID = 1;
+	private static final long serialVersionUID = 1L;
 	
 	private static final String BTN_LOGIN = "Login";
 	
-	public AccountService accountService;
 	public ResultMessage resultMessage;
+	public AccountService accountService = new AccountService();
 	
 	private JPanel contentPane;
 	private JTextField txtName;
-	private JTextField txtPass;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginGUI frame = new LoginGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JPasswordField Password;
 
 	/**
 	 * Create the frame.
 	 */
 	public LoginGUI() {
+		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 303, 180);
+		setBounds(100, 100, 296, 184);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblName = new JLabel("UserName");
-		lblName.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		lblName.setBounds(23, 49, 78, 16);
-		contentPane.add(lblName);
-		
-		JLabel lblPass = new JLabel("Password");
-		lblPass.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		lblPass.setBounds(23, 92, 61, 16);
-		contentPane.add(lblPass);
-		
-		txtName = new JTextField();
-		txtName.setBounds(113, 44, 168, 26);
-		contentPane.add(txtName);
-		txtName.setColumns(10);
-		
-		txtPass = new JTextField();
-		txtPass.setColumns(10);
-		txtPass.setBounds(113, 87, 168, 26);
-		contentPane.add(txtPass);
-		
 		JLabel lblLogin = new JLabel("LOGIN");
 		lblLogin.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		lblLogin.setBounds(121, 17, 78, 16);
+		lblLogin.setBounds(114, 11, 68, 24);
 		contentPane.add(lblLogin);
+		
+		JLabel lblUsername = new JLabel("Username");
+		lblUsername.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		lblUsername.setBounds(21, 50, 79, 18);
+		contentPane.add(lblUsername);
+		
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		lblPassword.setBounds(21, 75, 79, 24);
+		contentPane.add(lblPassword);
+		
+		txtName = new JTextField();
+		txtName.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		txtName.setBounds(114, 46, 156, 20);
+		contentPane.add(txtName);
+		txtName.setColumns(10);
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				try {
 					switch (e.getActionCommand()) {
 					case BTN_LOGIN:
 						Account account = new Account();
+//						ResultMessage resultMessage = new ResultMessage();
+//						AccountService accountService = new AccountService();
 //						account.setAccountName(txtName.getText());
-//						account.setAccountPass(txtPass.getText());
-						account.setAccountName("vinhkha");
-						account.setAccountPass("vinhkha1508");
+//						account.setAccountPass(Password.getText());
+						account.setAccountName("admin");
+						account.setAccountPass("12345");
 						resultMessage = accountService.login(account);
 						AbstractMainGUI.showDialog(resultMessage);
 						if(resultMessage.getMsgCode() == ResultMessage.MSG_LOGIN_SUCCESS) {
-							AdminGUI adminGUI = new AdminGUI();
-							adminGUI.setVisible(true);
+							MainGUI mainGUI = new MainGUI();
+							mainGUI.setVisible(true);
 							dispose();
 						}
 						break;
@@ -108,10 +92,10 @@ public class LoginGUI extends JFrame {
 					DBHelper.printSQLException(ex);
 					AbstractMainGUI.showErrDialog();
 				}	
-				
 			}
 		});
-		btnLogin.setBounds(123, 125, 78, 29);
+		btnLogin.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		btnLogin.setBounds(114, 110, 73, 23);
 		contentPane.add(btnLogin);
 		
 		JButton btnExit = new JButton("Exit");
@@ -120,7 +104,13 @@ public class LoginGUI extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnExit.setBounds(203, 125, 78, 29);
+		btnExit.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		btnExit.setBounds(197, 110, 73, 23);
 		contentPane.add(btnExit);
+		
+		Password = new JPasswordField();
+		Password.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		Password.setBounds(114, 76, 156, 20);
+		contentPane.add(Password);
 	}
 }

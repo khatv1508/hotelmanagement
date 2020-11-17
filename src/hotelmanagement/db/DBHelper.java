@@ -6,18 +6,20 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DBHelper {
-	private static String jdbcURL = "jdbc:mysql://localhost:3306/hotelmanagement?useSSL=false";
-    private static String jdbcUsername = "root";
-    private static String jdbcPassword = "root";
+	private static String jdbcURL = "jdbc:sqlserver://localhost;"
+            + "databaseName=hotelmanagement;"
+            + "integratedSecurity=true";
+    private static String jdbcUsername = "sa";
+    private static String jdbcPassword = "nhan2894";
     
     // khoi tao connection toi DB
-    public static PreparedStatement getPreparedStatement(String query) {
+    public static PreparedStatement getPreparedStatement(String query){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
             preparedStatement = connection.prepareStatement(query);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return preparedStatement;
