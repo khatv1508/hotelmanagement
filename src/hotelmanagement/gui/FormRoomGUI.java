@@ -37,6 +37,10 @@ public class FormRoomGUI extends JFrame {
 		panel.add(lblTang1);
 		
 		JButton btnRoom1_1 = new JButton("P101");
+		btnRoom1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnRoom1_1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		btnRoom1_1.setBounds(10, 42, 89, 23);
 		panel.add(btnRoom1_1);
