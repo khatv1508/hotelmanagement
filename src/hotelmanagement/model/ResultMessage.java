@@ -1,4 +1,4 @@
-package hotelmanagement.gui;
+package hotelmanagement.model;
 
 public class ResultMessage {
 	public static final String DIALOG_INFORM = "Thông báo";

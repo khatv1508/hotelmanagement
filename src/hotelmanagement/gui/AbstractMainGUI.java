@@ -13,6 +13,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import hotelmanagement.model.ResultMessage;
 import hotelmanagement.service.AccountService;
 
 public abstract class AbstractMainGUI extends JFrame implements ActionListener {

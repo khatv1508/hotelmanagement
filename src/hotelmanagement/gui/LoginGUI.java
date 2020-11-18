@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import hotelmanagement.db.DBHelper;
 import hotelmanagement.model.Account;
+import hotelmanagement.model.ResultMessage;
 import hotelmanagement.service.AccountService;
 
 public class LoginGUI extends JFrame {

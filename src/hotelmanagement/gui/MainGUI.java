@@ -42,8 +42,8 @@ public class MainGUI extends JFrame {
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FormRoomGUI formRoomGUI = new FormRoomGUI();
-				formRoomGUI.setVisible(true);
+				FormRoomGUI roomGUI = new FormRoomGUI();
+				roomGUI.setVisible(true);
 			}
 		});
 		btnAdd.setFont(new Font("Times New Roman", Font.PLAIN, 13));

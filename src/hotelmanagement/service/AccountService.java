@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import hotelmanagement.db.DBHelper;
-import hotelmanagement.gui.ResultMessage;
 import hotelmanagement.model.Account;
+import hotelmanagement.model.ResultMessage;
 
 public class AccountService {
 	private static final String SELECT_ACCOUNT = "select * from Account where account_id=?";
