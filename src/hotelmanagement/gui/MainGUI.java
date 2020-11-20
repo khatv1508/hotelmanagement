@@ -11,6 +11,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.JList;
 
 @SuppressWarnings("serial")
 public class MainGUI extends JFrame {
@@ -49,31 +54,31 @@ public class MainGUI extends JFrame {
 		lblTitle.setBounds(10, 0, 288, 72);
 		panel_1.add(lblTitle);
 		
-		JButton btnKhachHang = new JButton("Khách Hàng");
+		JButton btnKhachHang = new JButton("Khách hàng");
 		btnKhachHang.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnKhachHang.setIcon(new ImageIcon("C:\\Users\\nhant\\Downloads\\customer.png"));
 		btnKhachHang.setBounds(10, 94, 173, 41);
 		panel.add(btnKhachHang);
 		
-		JButton btnNhanVien = new JButton("Nhân Viên");
+		JButton btnNhanVien = new JButton("Nhân viên");
 		btnNhanVien.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnNhanVien.setIcon(new ImageIcon("C:\\Users\\nhant\\Downloads\\staff.png"));
 		btnNhanVien.setBounds(193, 94, 173, 41);
 		panel.add(btnNhanVien);
 		
-		JButton btnQuanLy = new JButton("Quản Lý Đặt Phòng");
+		JButton btnQuanLy = new JButton(" Đặt phòng");
 		btnQuanLy.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnQuanLy.setIcon(new ImageIcon("C:\\Users\\nhant\\Downloads\\room_manage.png"));
+		btnQuanLy.setIcon(new ImageIcon("C:\\Users\\nhant\\Downloads\\door-icon.png"));
 		btnQuanLy.setBounds(376, 94, 173, 41);
 		panel.add(btnQuanLy);
 		
-		JButton btnDichVu = new JButton("Dịch Vụ");
+		JButton btnDichVu = new JButton("Dịch vụ");
 		btnDichVu.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnDichVu.setIcon(new ImageIcon("C:\\Users\\nhant\\Downloads\\service.png"));
 		btnDichVu.setBounds(559, 94, 173, 41);
 		panel.add(btnDichVu);
 		
-		JButton btnThanhToan = new JButton("Thanh Toán");
+		JButton btnThanhToan = new JButton("Thanh toán");
 		btnThanhToan.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnThanhToan.setIcon(new ImageIcon("C:\\Users\\nhant\\Downloads\\pay.png"));
 		btnThanhToan.setBounds(742, 94, 173, 41);
@@ -93,5 +98,23 @@ public class MainGUI extends JFrame {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(10, 146, 1088, 532);
 		panel.add(panel_2);
+		panel_2.setLayout(null);
+		
+		JTree tree = new JTree();
+		tree.setModel(new DefaultTreeModel(
+			new DefaultMutableTreeNode("Khu vực") {
+				{
+					add(new DefaultMutableTreeNode("Tầng 1"));
+					add(new DefaultMutableTreeNode("Tầng 2"));
+					add(new DefaultMutableTreeNode("Tầng 3"));
+				}
+			}
+		));
+		tree.setBounds(10, 11, 163, 510);
+		panel_2.add(tree);
+		
+		JList list = new JList();
+		list.setBounds(183, 11, 895, 510);
+		panel_2.add(list);
 	}
 }

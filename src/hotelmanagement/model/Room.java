@@ -6,7 +6,6 @@ public class Room {
 	private int idLoai;
 	private int giuong;
 	private int giaPhong;
-	private int trangThai;
 	
 	public String getMaPhong() {
 		return maPhong;
@@ -37,11 +36,5 @@ public class Room {
 	}
 	public void setGiaPhong(int giaPhong) {
 		this.giaPhong = giaPhong;
-	}
-	public int getTrangThai() {
-		return trangThai;
-	}
-	public void setTrangThai(int trangThai) {
-		this.trangThai = trangThai;
 	}
 }
