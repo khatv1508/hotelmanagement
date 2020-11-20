@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class DBHelper {
 	private static String jdbcURL = "jdbc:sqlserver://localhost;"
-            + "databaseName=hotelmanagement;"
+            + "databaseName=hotelmanagement2;"
             + "integratedSecurity=true";
     private static String jdbcUsername = "sa";
     private static String jdbcPassword = "nhan2894";

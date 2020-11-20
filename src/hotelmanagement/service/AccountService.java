@@ -9,7 +9,7 @@ import hotelmanagement.model.Account;
 import hotelmanagement.model.ResultMessage;
 
 public class AccountService {
-	private static final String SELECT_ACCOUNT = "select * from Account where account_id=?";
+	private static final String SELECT_ACCOUNT = "select * from Account where account_ID=?";
 	private static final String LOGIN_ACCOUNT = "select count(*) as count from Account where account_name = ? and account_pass = ?";
 	
 	public Account getAccount() throws SQLException{
@@ -41,8 +41,8 @@ public class AccountService {
 				if(count == 1){
 					result.setMsgCode(ResultMessage.MSG_LOGIN_SUCCESS);
 				} else {
-					result.setMsgCode(ResultMessage.MSG_CODE_FAIL);
-					result.setContent(ResultMessage.MSG_LOGIN_FAIL);
+					result.setMsgCode(ResultMessage.MSG_LOGIN_FAIL);
+//					result.setContent(ResultMessage.MSG_LOGIN_FAIL);
 				}
 			}
 		}

@@ -72,8 +72,6 @@ public class LoginGUI extends JFrame {
 					switch (e.getActionCommand()) {
 					case BTN_LOGIN:
 						Account account = new Account();
-//						ResultMessage resultMessage = new ResultMessage();
-//						AccountService accountService = new AccountService();
 //						account.setAccountName(txtName.getText());
 //						account.setAccountPass(Password.getText());
 						account.setAccountName("admin");

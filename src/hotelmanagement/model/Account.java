@@ -2,6 +2,7 @@ package hotelmanagement.model;
 
 public class Account {
 	private int accountId;
+	private int idNhanVien;
 	private String accountName;
 	private String accountPass;
 	
@@ -11,6 +12,14 @@ public class Account {
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
+	
+	public int getIdNhanVien() {
+		return idNhanVien;
+	}
+	public void setIdNhanVien(int idNhanVien) {
+		this.idNhanVien = idNhanVien;
+	}
+	
 	public String getAccountName() {
 		return accountName;
 	}
