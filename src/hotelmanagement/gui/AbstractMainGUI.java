@@ -19,7 +19,7 @@ import hotelmanagement.service.AccountService;
 public abstract class AbstractMainGUI extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	/** ICON **/
-	public static final String ICON_CHECK = "/icons/38.png";
+	public static final String ICON_LOGIN = "/icons/38.png";
 	/** SERVICE **/
 	public AccountService accountService;
 

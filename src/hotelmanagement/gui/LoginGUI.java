@@ -17,6 +17,7 @@ import hotelmanagement.db.DBHelper;
 import hotelmanagement.model.Account;
 import hotelmanagement.model.ResultMessage;
 import hotelmanagement.service.AccountService;
+import java.awt.Color;
 
 public class LoginGUI extends JFrame {
 
@@ -36,16 +37,18 @@ public class LoginGUI extends JFrame {
 	 */
 	public LoginGUI() {
 		super();
+		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 296, 184);
+		setBounds(100, 100, 336, 188);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 182, 193));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblLogin = new JLabel("LOGIN");
 		lblLogin.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		lblLogin.setBounds(114, 11, 68, 24);
+		lblLogin.setBounds(131, 11, 68, 24);
 		contentPane.add(lblLogin);
 		
 		JLabel lblUsername = new JLabel("Username");
@@ -60,7 +63,7 @@ public class LoginGUI extends JFrame {
 		
 		txtName = new JTextField();
 		txtName.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		txtName.setBounds(114, 46, 156, 20);
+		txtName.setBounds(114, 46, 190, 20);
 		contentPane.add(txtName);
 		txtName.setColumns(10);
 		
@@ -74,7 +77,7 @@ public class LoginGUI extends JFrame {
 						Account account = new Account();
 //						account.setAccountName(txtName.getText());
 //						account.setAccountPass(Password.getText());
-						account.setAccountName("admin");
+						account.setAccountName("vinhkha");
 						account.setAccountPass("12345");
 						resultMessage = accountService.login(account);
 						AbstractMainGUI.showDialog(resultMessage);
@@ -94,7 +97,7 @@ public class LoginGUI extends JFrame {
 			}
 		});
 		btnLogin.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnLogin.setBounds(114, 110, 73, 23);
+		btnLogin.setBounds(114, 110, 90, 23);
 		contentPane.add(btnLogin);
 		
 		JButton btnExit = new JButton("Exit");
@@ -104,12 +107,12 @@ public class LoginGUI extends JFrame {
 			}
 		});
 		btnExit.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnExit.setBounds(197, 110, 73, 23);
+		btnExit.setBounds(214, 110, 90, 23);
 		contentPane.add(btnExit);
 		
 		Password = new JPasswordField();
 		Password.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		Password.setBounds(114, 76, 156, 20);
+		Password.setBounds(114, 76, 190, 20);
 		contentPane.add(Password);
 	}
 }
