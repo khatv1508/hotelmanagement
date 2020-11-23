@@ -3,7 +3,7 @@ package hotelmanagement.model;
 public class Customer {
 	private int idKhachHang;
 	private String hoTen;
-	private int gioiTinh;
+	private String gioiTinh;
 	private String sdt;
 	private String cmnd;
 	private String quocTich;
@@ -20,10 +20,10 @@ public class Customer {
 	public void setHoTen(String hoTen) {
 		this.hoTen = hoTen;
 	}
-	public int getGioiTinh() {
+	public String getGioiTinh() {
 		return gioiTinh;
 	}
-	public void setGioiTinh(int gioiTinh) {
+	public void setGioiTinh(String gioiTinh) {
 		this.gioiTinh = gioiTinh;
 	}
 	public String getSdt() {

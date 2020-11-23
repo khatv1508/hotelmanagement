@@ -4,23 +4,30 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.JList;
+import javax.swing.tree.DefaultTreeModel;
+
+import hotelmanagement.model.RoomManage;
+import hotelmanagement.service.ContractService;
 
 @SuppressWarnings("serial")
 public class MainGUI extends JFrame {
 
 	private JPanel contentPane;
+	private ContractService contractService = new ContractService();
 
 	/**
 	 * Create the frame.
@@ -42,17 +49,17 @@ public class MainGUI extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(255, 182, 193));
-		panel_1.setBounds(10, 11, 1088, 72);
-		panel.add(panel_1);
-		panel_1.setLayout(null);
+		JPanel panel_Top = new JPanel();
+		panel_Top.setBackground(new Color(255, 182, 193));
+		panel_Top.setBounds(10, 11, 1088, 72);
+		panel.add(panel_Top);
+		panel_Top.setLayout(null);
 		
 		JLabel lblTitle = new JLabel("Hotel Management");
 		lblTitle.setIcon(new ImageIcon("C:\\Users\\nhant\\Downloads\\hotel-icon (1).png"));
 		lblTitle.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblTitle.setBounds(10, 0, 288, 72);
-		panel_1.add(lblTitle);
+		panel_Top.add(lblTitle);
 		
 		JButton btnKhachHang = new JButton("Khách hàng");
 		btnKhachHang.setFont(new Font("Times New Roman", Font.PLAIN, 13));
@@ -67,6 +74,12 @@ public class MainGUI extends JFrame {
 		panel.add(btnNhanVien);
 		
 		JButton btnQuanLy = new JButton(" Đặt phòng");
+		btnQuanLy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FormAddRoom addRoom = new FormAddRoom();
+				addRoom.setVisible(true);
+			}
+		});
 		btnQuanLy.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnQuanLy.setIcon(new ImageIcon("C:\\Users\\nhant\\Downloads\\door-icon.png"));
 		btnQuanLy.setBounds(376, 94, 173, 41);
@@ -95,26 +108,49 @@ public class MainGUI extends JFrame {
 		btnExit.setBounds(925, 94, 173, 41);
 		panel.add(btnExit);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 146, 1088, 532);
-		panel.add(panel_2);
-		panel_2.setLayout(null);
+		JPanel panel_Center = new JPanel();
+		panel_Center.setBounds(10, 146, 1088, 532);
+		panel.add(panel_Center);
+		panel_Center.setLayout(null);
 		
-		JTree tree = new JTree();
-		tree.setModel(new DefaultTreeModel(
+		JTree treeRoom = new JTree();
+		treeRoom.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		treeRoom.setModel(new DefaultTreeModel(
 			new DefaultMutableTreeNode("Khu vực") {
 				{
-					add(new DefaultMutableTreeNode("Tầng 1"));
+					add(new DefaultMutableTreeNode("Tâng 1"));
 					add(new DefaultMutableTreeNode("Tầng 2"));
 					add(new DefaultMutableTreeNode("Tầng 3"));
 				}
 			}
 		));
-		tree.setBounds(10, 11, 163, 510);
-		panel_2.add(tree);
+		treeRoom.setBounds(10, 11, 163, 510);
+		panel_Center.add(treeRoom);
 		
-		JList list = new JList();
-		list.setBounds(183, 11, 895, 510);
-		panel_2.add(list);
+		
+		List<RoomManage> lstResults = new ArrayList<>();
+		try {
+			lstResults = contractService.lstRoom(0);
+			String[] tblHead = {"asd","2asd","3asd","4asd", "5asd", "6asd"};
+			DefaultTableModel model = new DefaultTableModel(tblHead,1);
+			JTable tblRoom = new JTable(model);
+			tblRoom.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+			tblRoom.setBounds(183, 11, 895, 510);
+			for (RoomManage roomManage : lstResults) {
+				ArrayList<String> item = new ArrayList<String>();
+				item.add(String.valueOf(roomManage.getIdQLDPhong()));
+				item.add(String.valueOf(roomManage.getTang()));
+				item.add(roomManage.getMaPhong());
+				item.add(roomManage.getHoTen());
+				item.add(roomManage.getTenLoai());
+				item.add(String.valueOf(roomManage.getDonGia()));
+				model.addRow(item.toArray());
+			}
+			tblRoom.setModel(model);
+			panel_Center.add(tblRoom);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 	}
+	
 }
