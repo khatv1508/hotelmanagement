@@ -20,6 +20,11 @@ public abstract class AbstractMainGUI extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	/** ICON **/
 	public static final String ICON_LOGIN = "/icons/38.png";
+//	public static final String ICON_EXIT = "/icons/close-icon.png";
+//	public static final String ICON_CUSTOMER = "/icons/customer.png";
+//	public static final String ICON_STAFF = "/icons/staff.png";
+//	public static final String ICON_DOOR = "/icons/door.png";
+//	public static final String ICON_PAY = "/icons/pay.png";
 	/** SERVICE **/
 	public AccountService accountService;
 

@@ -6,7 +6,7 @@ public class RoomManage {
 	private String maPhong;
 	private String hoTen;
 	private String tenLoai;
-	private int donGia;
+	private float donGia;
 	
 	
 	
@@ -48,7 +48,7 @@ public class RoomManage {
 	public float getDonGia() {
 		return donGia;
 	}
-	public void setDonGia(int donGia) {
+	public void setDonGia(float donGia) {
 		this.donGia = donGia;
 	}
 

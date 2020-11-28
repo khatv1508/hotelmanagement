@@ -6,6 +6,8 @@ public class ResultMessage {
 	public static final String MSG_CODE_SUCCESS = "0";
 	
 	public static final String MSG_LOGIN_SUCCESS = "Login thành công";
+	
+	public static final String MSG_ADD = "Đặt phòng thành công";
 
 	public static final String MSG_CODE_FAIL= "1";
 	public static final String MSG_LOGIN_FAIL = "Tài khoản hoặc mật khẩu không đúng";

@@ -1,33 +1,42 @@
 package hotelmanagement.gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import java.awt.EventQueue;
 import java.awt.Font;
-import javax.swing.ImageIcon;
-import javax.swing.JTextField;
-import javax.swing.JRadioButton;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
-public class FormAddRoom extends JFrame {
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import hotelmanagement.db.DBHelper;
+import hotelmanagement.model.Customer;
+import hotelmanagement.model.ResultMessage;
+import hotelmanagement.model.RoomManage;
+import hotelmanagement.service.ContractService;
+
+@SuppressWarnings("serial")
+public class AddRoomGUI extends JFrame {
+	
+	private ContractService contractService = new ContractService();
+	private ResultMessage resultMessage = new ResultMessage();
+	private Customer customer = new Customer();
+	private static RoomManage roomManage = new RoomManage();
 
 	private JPanel contentPane;
-	private JTextField txtKhachHang;
+	private JTextField txtTen;
 	private JTextField txtPhone;
 	private JTextField txtCMND;
-	private JTextField txtMaPhong;
 	private JTextField txtQuocTich;
-	private JTextField txtLoaiPhong;
-
+	private JTextField txtGioiTinh;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -35,19 +44,22 @@ public class FormAddRoom extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormAddRoom frame = new FormAddRoom();
+					AddRoomGUI frame = new AddRoomGUI(roomManage);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+		
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public FormAddRoom() {
+	public AddRoomGUI(RoomManage roomManage) {
+		super();
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 473, 442);
 		contentPane = new JPanel();
@@ -70,7 +82,7 @@ public class FormAddRoom extends JFrame {
 		
 		JLabel lblAddRoom = new JLabel("Đặt Phòng");
 		lblAddRoom.setBounds(161, 11, 138, 32);
-		lblAddRoom.setIcon(new ImageIcon("C:\\Users\\nhant\\Downloads\\door-icon.png"));
+		lblAddRoom.setIcon(new ImageIcon("D:\\VinhKha\\image\\door-icon.png"));
 		lblAddRoom.setFont(new Font("Times New Roman", Font.PLAIN, 24));
 		panel_room.add(lblAddRoom);
 		
@@ -113,11 +125,29 @@ public class FormAddRoom extends JFrame {
 		lblLoaiPhong.setBounds(23, 258, 128, 23);
 		panel_room.add(lblLoaiPhong);
 		
-		txtKhachHang = new JTextField();
-		txtKhachHang.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		txtKhachHang.setColumns(10);
-		txtKhachHang.setBounds(161, 54, 229, 23);
-		panel_room.add(txtKhachHang);
+		JLabel lblMPhong = new JLabel("");
+		lblMPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		lblMPhong.setBounds(161, 225, 229, 23);
+		lblMPhong.setText(roomManage.getMaPhong());
+		panel_room.add(lblMPhong);
+		
+		JLabel lblLPhong = new JLabel("");
+		lblLPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		lblLPhong.setBounds(161, 259, 229, 23);
+		lblLPhong.setText(roomManage.getTenLoai());
+		panel_room.add(lblLPhong);
+		
+		txtTen = new JTextField();
+		txtTen.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		txtTen.setColumns(10);
+		txtTen.setBounds(161, 54, 229, 23);
+		panel_room.add(txtTen);
+		
+		txtGioiTinh = new JTextField();
+		txtGioiTinh.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		txtGioiTinh.setColumns(10);
+		txtGioiTinh.setBounds(161, 88, 229, 23);
+		panel_room.add(txtGioiTinh);
 		
 		txtPhone = new JTextField();
 		txtPhone.setFont(new Font("Times New Roman", Font.PLAIN, 15));
@@ -132,28 +162,40 @@ public class FormAddRoom extends JFrame {
 		panel_room.add(txtCMND);
 		
 		txtQuocTich = new JTextField();
+		txtQuocTich.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		txtQuocTich.setBounds(161, 189, 229, 23);
 		panel_room.add(txtQuocTich);
 		txtQuocTich.setColumns(10);
 		
-		txtMaPhong = new JTextField();
-		txtMaPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		txtMaPhong.setColumns(10);
-		txtMaPhong.setBounds(161, 223, 229, 23);
-		panel_room.add(txtMaPhong);
-		
-		txtLoaiPhong = new JTextField();
-		txtLoaiPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		txtLoaiPhong.setColumns(10);
-		txtLoaiPhong.setBounds(161, 258, 229, 23);
-		panel_room.add(txtLoaiPhong);
-		
-		JComboBox cbbGioiTinh = new JComboBox();
-		cbbGioiTinh.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		cbbGioiTinh.setBounds(161, 88, 229, 23);
-		panel_room.add(cbbGioiTinh);
-		
 		JButton btnAdd = new JButton("Đặt Phòng");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+//					Customer customer = contractService.getContractMount(contractCode);
+					// set cac tham so cho cau SQL BORROWER
+					customer.setHoTen(txtTen.getText());
+					customer.setGioiTinh(txtGioiTinh.getText());
+					customer.setSdt(txtPhone.getText());
+					customer.setCmnd(txtCMND.getText());
+					customer.setQuocTich(txtQuocTich.getText());
+					
+					// set cac tham so cho cau SQL CONTRACT
+					roomManage.setMaPhong(lblMPhong.getText());
+					roomManage.setHoTen(txtTen.getText());
+					roomManage.setTenLoai(lblLPhong.getText());
+					
+					// check ket qua tra ve
+					resultMessage = contractService.createContract(customer, roomManage);
+					if(resultMessage.getMsgCode() == ResultMessage.MSG_CODE_SUCCESS) {
+						AbstractMainGUI.showDialog(resultMessage);
+					}
+					
+				} catch (SQLException ex) {
+					DBHelper.printSQLException(ex);
+					AbstractMainGUI.showErrDialog();
+				}
+			}
+		});
 		btnAdd.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		btnAdd.setBounds(161, 326, 105, 23);
 		panel_room.add(btnAdd);
@@ -167,5 +209,6 @@ public class FormAddRoom extends JFrame {
 		});
 		btnExit.setBounds(285, 326, 105, 23);
 		panel_room.add(btnExit);
+		
 	}
 }

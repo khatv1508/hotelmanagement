@@ -39,7 +39,7 @@ public class LoginGUI extends JFrame {
 		super();
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 336, 188);
+		setBounds(100, 100, 300, 187);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 182, 193));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -48,22 +48,22 @@ public class LoginGUI extends JFrame {
 		
 		JLabel lblLogin = new JLabel("LOGIN");
 		lblLogin.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		lblLogin.setBounds(131, 11, 68, 24);
+		lblLogin.setBounds(114, 11, 68, 24);
 		contentPane.add(lblLogin);
 		
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblUsername.setBounds(21, 50, 79, 18);
+		lblUsername.setBounds(10, 46, 79, 18);
 		contentPane.add(lblUsername);
 		
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblPassword.setBounds(21, 75, 79, 24);
+		lblPassword.setBounds(10, 75, 79, 24);
 		contentPane.add(lblPassword);
 		
 		txtName = new JTextField();
 		txtName.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		txtName.setBounds(114, 46, 190, 20);
+		txtName.setBounds(114, 46, 160, 20);
 		contentPane.add(txtName);
 		txtName.setColumns(10);
 		
@@ -97,7 +97,7 @@ public class LoginGUI extends JFrame {
 			}
 		});
 		btnLogin.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnLogin.setBounds(114, 110, 90, 23);
+		btnLogin.setBounds(114, 110, 79, 23);
 		contentPane.add(btnLogin);
 		
 		JButton btnExit = new JButton("Exit");
@@ -107,12 +107,12 @@ public class LoginGUI extends JFrame {
 			}
 		});
 		btnExit.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnExit.setBounds(214, 110, 90, 23);
+		btnExit.setBounds(203, 110, 71, 23);
 		contentPane.add(btnExit);
 		
 		Password = new JPasswordField();
 		Password.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		Password.setBounds(114, 76, 190, 20);
+		Password.setBounds(114, 76, 160, 20);
 		contentPane.add(Password);
 	}
 }
