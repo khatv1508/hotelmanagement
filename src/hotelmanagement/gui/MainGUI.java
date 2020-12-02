@@ -35,14 +35,17 @@ public class MainGUI extends JFrame {
 	private JPanel contentPane;
 	private ContractService contractService = new ContractService();
 	@SuppressWarnings("unused")
+	private RoomManage roomManage  = new RoomManage();
 	private Room room  = new Room();
-	
+	private DefaultTableModel model = new DefaultTableModel();
+	private String[] tblHead = {"Tầng","Mã Phòng","Tên Khách Hàng", "Loại Phòng", "Ngày Đến", "Ngày Đi", "Giá Phòng", "Trạng Thái"};
 	
 	//
 	private String maPhong;
 	@SuppressWarnings("unused")
 	private String tenLoai;
 	
+	//
 	private List<RoomManage> lstResults;
 	private JTable tblRoom;
 
@@ -99,7 +102,6 @@ public class MainGUI extends JFrame {
 		JButton btnQuanLy = new JButton(" Đặt phòng");
 		btnQuanLy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Room room;
 				try {
 					room = contractService.getRoom(maPhong);
 					AddRoomGUI addRoom = new AddRoomGUI(room);
@@ -174,16 +176,20 @@ public class MainGUI extends JFrame {
 		        	switch (nodeInfo.toString()) {
 					case "Tâng 1":
 						lstResults = contractService.lstRoom(1);
+						resetTable();
 						break;
 					case "Tầng 2":
 						lstResults = contractService.lstRoom(2);
+						resetTable();
 						break;
 					case "Tầng 3":
 						lstResults = contractService.lstRoom(3);
+						resetTable();
 						break;
 
 					default:
 						lstResults = contractService.lstRoom(0);
+						resetTable();
 						break;
 					}
 				} catch (Exception e2) {
@@ -195,41 +201,41 @@ public class MainGUI extends JFrame {
 		panel_Center.add(treeRoom);
 		
 		try {
-			lstResults = contractService.lstRoom(1);
-			String[] tblHead = {"Tầng","Mã Phòng","Tên Khách Hàng", "Loại Phòng", "Ngày Đến", "Ngày Đi", "Giá Phòng", "Trạng Thái"};
-			DefaultTableModel model = new DefaultTableModel(tblHead, 0);
-			model.addRow(tblHead);
-			tblRoom = new JTable();
-			tblRoom.setBackground(Color.WHITE);
-			tblRoom.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-			tblRoom.setBounds(183, 11, 1078, 520);;
-			for (RoomManage roomManage : lstResults) {
-				ArrayList<String> item = new ArrayList<String>();
-				item.add(String.valueOf(roomManage.getTang()));
-				item.add(roomManage.getMaPhong());
-				item.add(roomManage.getHoTen());
-				item.add(roomManage.getTenLoai());
-//				Date date = Calendar.getInstance().getTime();  
-//				DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");  
-//				String strDate = dateFormat.format(date);
-				item.add(String.valueOf(roomManage.getCheckIn()));
-				item.add(String.valueOf(roomManage.getCheckOut()));
-				item.add(String.valueOf(roomManage.getDonGia()));
-				item.add(roomManage.getTrangThai());
-				model.addRow(item.toArray());
-			}
-			tblRoom.setModel(model);
-			tblRoom.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-		        public void valueChanged(ListSelectionEvent event) {
-		        	maPhong = tblRoom.getValueAt(tblRoom.getSelectedRow(), 1).toString();
-		        	tenLoai = tblRoom.getValueAt(tblRoom.getSelectedRow(), 3).toString();
-//		        	System.out.println(maPhong);
-//		        	System.out.println(tenLoai);
-		        }
-		    });
+			lstResults = contractService.lstRoom(0);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
+		
+		tblRoom = new JTable();
+		tblRoom.setBackground(Color.WHITE);
+		tblRoom.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		tblRoom.setBounds(183, 11, 1078, 520);;
+		resetTable();
+		tblRoom.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	        	maPhong = tblRoom.getValueAt(tblRoom.getSelectedRow(), 1).toString();
+	        	tenLoai = tblRoom.getValueAt(tblRoom.getSelectedRow(), 3).toString();
+//		        System.out.println(maPhong);
+//		        System.out.println(tenLoai);
+	        }
+	    });
 		panel_Center.add(tblRoom);
+	}
+	public void resetTable() {
+		model = new DefaultTableModel(tblHead, 0);
+		model.addRow(tblHead);
+		for (RoomManage roomManage : lstResults) {
+			ArrayList<String> item = new ArrayList<String>();
+			item.add(String.valueOf(roomManage.getTang()));
+			item.add(roomManage.getMaPhong());
+			item.add(roomManage.getHoTen());
+			item.add(roomManage.getTenLoai());
+			item.add(String.valueOf(roomManage.getCheckIn()));
+			item.add(String.valueOf(roomManage.getCheckOut()));
+			item.add(String.valueOf(roomManage.getDonGia()));
+			item.add(roomManage.getTrangThai());
+			model.addRow(item.toArray());
+		}
+		tblRoom.setModel(model);
 	}
 }

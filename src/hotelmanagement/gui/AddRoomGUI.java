@@ -42,10 +42,11 @@ public class AddRoomGUI extends JFrame {
 	private JLabel lblLoaiPhong;
 	private JLabel lblMPhong;
 	private JLabel lblLPhong;
+	private JLabel lblCheck_in;
+	private JLabel lblCheck_out;
 
 	private JPanel contentPane;
-	private JTextField txtCMND;
-	private JTextField txtQuocTich;
+	private JComboBox cbbKH;
 	
 	private JButton btnAdd;
 	private JButton btnExit;
@@ -150,18 +151,6 @@ public class AddRoomGUI extends JFrame {
 		lblLPhong.setBounds(161, 259, 229, 23);
 		panel_room.add(lblLPhong);
 		
-		txtCMND = new JTextField();
-		txtCMND.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		txtCMND.setColumns(10);
-		txtCMND.setBounds(161, 155, 229, 23);
-		panel_room.add(txtCMND);
-		
-		txtQuocTich = new JTextField();
-		txtQuocTich.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		txtQuocTich.setBounds(161, 189, 229, 23);
-		panel_room.add(txtQuocTich);
-		txtQuocTich.setColumns(10);
-		
 		btnAdd = new JButton("Đặt Phòng");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -187,12 +176,12 @@ public class AddRoomGUI extends JFrame {
 		cbbKH.setBounds(161, 54, 229, 23);
 		panel_room.add(cbbKH);
 		
-		JLabel lblCheck_in = new JLabel("");
+		lblCheck_in = new JLabel("");
 		lblCheck_in.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblCheck_in.setBounds(161, 89, 229, 23);
 		panel_room.add(lblCheck_in);
 		
-		JLabel lblCheck_out = new JLabel("");
+		lblCheck_out = new JLabel("");
 		lblCheck_out.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblCheck_out.setBounds(161, 123, 229, 23);
 		panel_room.add(lblCheck_out);
