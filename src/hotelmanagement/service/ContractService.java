@@ -9,8 +9,10 @@ import java.util.List;
 import hotelmanagement.db.DBHelper;
 import hotelmanagement.model.Customer;
 import hotelmanagement.model.ResultMessage;
+import hotelmanagement.model.Room;
 import hotelmanagement.model.RoomManage;
 
+@SuppressWarnings("unused")
 public class ContractService {
 	private String SELECT_ROOM = "select" + 
 			"	qldp.ID_QLDPhong" + 
@@ -18,8 +20,11 @@ public class ContractService {
 			"	, p.MaPhong" + 
 			"	, kh.HoTen" + 
 			"	, lp.TenLoai" + 
-			"	, p.GiaPhong " + 
-			"from Phong p " + 
+			"	, qldp.Check_in" + 
+			"	, qldp.Check_out" + 
+			"	, p.GiaPhong" + 
+			"	, qldp.TrangThai " + 
+			"from Phong p" + 
 			"	LEFT JOIN QuanLyDatPhong qldp on (p.MaPhong = qldp.MaPhong)" + 
 			"	LEFT JOIN KhachHang kh on (kh.ID_KH = qldp.ID_KH )" + 
 			"	LEFT JOIN LoaiPhong lp on (lp.ID_Loai = p.ID_Loai)"; 
@@ -29,13 +34,20 @@ public class ContractService {
 			"VALUES(?, ?, ?, ?, ?)";
 	
 	private String INSERT_ADDROOM = "INSERT INTO QuanLyDatPhong" +
-			"(ID_KH, MaPhong, Gia, PhuThu) " +
-			"VALUES(?, ?, ?, ?)";
+			"(ID_KH, MaPhong, Check_in, Check_out, SoKhach, Nam, TreEm, GiaPhong, PhuThu, TienCoc, TrangThai) " + 
+			"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
-	private String SELECT_ROOM_MANAGE = "SELECT * FROM QuanLyDatPhong WHERE ID_QLDPhong = ?";
+	private String SELECT_ROOM_TYPE = "select" + 
+			"	p.MaPhong" + 
+			"	, p.Tang" + 
+			"	, lp.TenLoai" + 
+			"	, p.SoGiuong" + 
+			"	, p.GiaPhong " + 
+			"from Phong p" + 
+			"	INNER JOIN LoaiPhong lp ON (lp.ID_Loai = p.ID_Loai)";
 	
 	// list room
-	public List<RoomManage> lstRoom(int idQLDPhong) throws SQLException{
+	public List<RoomManage> lstRoom(int tang) throws SQLException{
 		//
 		List<RoomManage> lstResults = new ArrayList<>();
 		RoomManage roomManage = new RoomManage();
@@ -43,10 +55,10 @@ public class ContractService {
 		String sqlStr = SELECT_ROOM;
 		PreparedStatement preparedStatement  = null;
 		ResultSet rs  = null;
-		if(idQLDPhong != 0){
+		if(tang != 0){
 			sqlStr = sqlStr + "WHERE p.Tang = ?";
 			preparedStatement = DBHelper.getPreparedStatement(sqlStr);
-			preparedStatement.setInt(1, idQLDPhong);
+			preparedStatement.setInt(1, tang);
 		} else {
 			preparedStatement = DBHelper.getPreparedStatement(sqlStr);
 		}
@@ -59,7 +71,10 @@ public class ContractService {
 			roomManage.setMaPhong(rs.getString(3));
 			roomManage.setHoTen(rs.getString(4));
 			roomManage.setTenLoai(rs.getString(5));
-			roomManage.setDonGia(rs.getInt(6));
+			roomManage.setCheckIn(rs.getDate(6));
+			roomManage.setCheckOut(rs.getDate(7));
+			roomManage.setDonGia(rs.getInt(8));
+			roomManage.setTrangThai(rs.getString(9));
 			
 			//
 			lstResults.add(roomManage);
@@ -88,69 +103,21 @@ public class ContractService {
 		return customer;	
 	}
 	
-	// Ham insert hop dong moi
-	public ResultMessage createContract(Customer customer, RoomManage roomManage) throws SQLException{
-		ResultMessage resultMessage = new ResultMessage();
-		// INSERT cai borrower truoc
-		PreparedStatement preparedStatement = DBHelper.getPreparedStatement(INSERT_CUSTOMER);
-		int row = 0;
-
-		if (preparedStatement != null){
-		// set cac tham so cho cau SQL khach hang
-			preparedStatement.setString(1, customer.getHoTen());
-			preparedStatement.setString(2, customer.getGioiTinh());
-			preparedStatement.setString(3, customer.getSdt());
-			preparedStatement.setString(4, customer.getCmnd());
-			preparedStatement.setString(5, customer.getQuocTich());
-			
-			// lay so row insert
-			row = preparedStatement.executeUpdate();
-		}
-
-		// INSERT cai contract
-		if (row >= 1){
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				roomManage.setIdQLDPhong(generatedKeys.getInt(1));
-	        }
-			preparedStatement = DBHelper.getPreparedStatement(INSERT_ADDROOM);
+	// Ham select room
+		public Room getRoom(String maPhong) throws SQLException{
+			Room room = new Room();
+			PreparedStatement preparedStatement = DBHelper.getPreparedStatement(SELECT_ROOM_TYPE);
 			if (preparedStatement != null){
-				// set cac tham so cho cau SQL quan ly dat phong
-				preparedStatement.setInt(1, roomManage.getIdQLDPhong());
-				preparedStatement.setString(2, roomManage.getMaPhong());
-				preparedStatement.setFloat(3, roomManage.getDonGia());
-				
-
-				// lay so row insert
-				row = preparedStatement.executeUpdate();
-				if (row >= 1){
-					resultMessage.setMsgCode(ResultMessage.MSG_CODE_SUCCESS);
-					resultMessage.setContent(ResultMessage.MSG_ADD);
-				}
-			}
-
-		} else {
-			throw new SQLException(ResultMessage.MSG_CODE_FAIL);
-		}
-		return resultMessage;
-	}
-	
-	// Ham select room_manage
-		public RoomManage getRoomManage(int idQLDPhong) throws SQLException{
-			RoomManage roomManage = new RoomManage();
-			PreparedStatement preparedStatement = DBHelper.getPreparedStatement(SELECT_ROOM_MANAGE);
-			if (preparedStatement != null){
-				preparedStatement.setInt(1, idQLDPhong);
+				preparedStatement.setString(1, maPhong);
 		        ResultSet rs = preparedStatement.executeQuery();
 		        while (rs.next()) {
-		        	roomManage.setIdQLDPhong(rs.getInt("idQLDPhong"));
-		        	roomManage.setTang(rs.getInt("tang"));
-		        	roomManage.setMaPhong(rs.getString("maPhong"));
-		        	roomManage.setHoTen(rs.getString("hoTen"));
-		        	roomManage.setTenLoai(rs.getString("tenLoai"));
-		        	roomManage.setDonGia(rs.getLong("donGia"));
+		        	room.setMaPhong(rs.getString("maPhong"));
+		        	room.setTang(rs.getInt("tang"));
+		        	room.setTenLoai(rs.getString("tenLoai"));
+		        	room.setGiuong(rs.getInt("giuong"));
+		        	room.setGiaPhong(rs.getLong("giaPhong"));
 		        }
 			}
-			return roomManage;	
+			return room;	
 		}
 }

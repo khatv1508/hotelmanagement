@@ -3,9 +3,9 @@ package hotelmanagement.model;
 public class Room {
 	private String maPhong;
 	private int tang;
-	private int idLoai;
+	private String tenLoai;
 	private int giuong;
-	private int giaPhong;
+	private long giaPhong;
 	
 	public String getMaPhong() {
 		return maPhong;
@@ -19,11 +19,11 @@ public class Room {
 	public void setTang(int tang) {
 		this.tang = tang;
 	}
-	public int getIdLoai() {
-		return idLoai;
+	public String getTenLoai() {
+		return tenLoai;
 	}
-	public void setIdLoai(int idLoai) {
-		this.idLoai = idLoai;
+	public void setTenLoai(String tenLoai) {
+		this.tenLoai = tenLoai;
 	}
 	public int getGiuong() {
 		return giuong;
@@ -31,10 +31,10 @@ public class Room {
 	public void setGiuong(int giuong) {
 		this.giuong = giuong;
 	}
-	public int getGiaPhong() {
+	public long getGiaPhong() {
 		return giaPhong;
 	}
-	public void setGiaPhong(int giaPhong) {
+	public void setGiaPhong(long giaPhong) {
 		this.giaPhong = giaPhong;
 	}
 }
