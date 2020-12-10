@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import hotelmanagement.db.DBHelper;
 import hotelmanagement.model.Customer;
@@ -31,6 +34,12 @@ public class AddRoomGUI extends JFrame {
 	private ResultMessage resultMessage = new ResultMessage();
 	private Customer customer = new Customer();
 	private static RoomManage roomManage = new RoomManage();
+	private static Room room = new Room();
+	private List<Customer> lstResults;
+	private DefaultTableModel model = new DefaultTableModel();
+	
+	private JPanel panel;
+	private JPanel panel_room;
 	
 	private JLabel lblAddRoom;
 	private JLabel lblKhachHang;
@@ -42,15 +51,18 @@ public class AddRoomGUI extends JFrame {
 	private JLabel lblLoaiPhong;
 	private JLabel lblMPhong;
 	private JLabel lblLPhong;
-	private JLabel lblCheck_in;
-	private JLabel lblCheck_out;
 
-	private JPanel contentPane;
-	private JComboBox cbbKH;
+	private JTextField txtCheckOut;
+	private JTextField txtCheckIn;
+	private JTextField txtKhach;
+	private JTextField txtTien;
 	
+	private JPanel contentPane;
+	private JComboBox<String> cbbKH;
+	
+	private JButton btnKhachHang;
 	private JButton btnAdd;
 	private JButton btnExit;
-	private static Room room;
 	
 	/**
 	 * Launch the application.
@@ -72,27 +84,28 @@ public class AddRoomGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings("static-access")
+	@SuppressWarnings({ "static-access", "unchecked", "rawtypes" })
 	public AddRoomGUI(Room room) {
 		this.room = room;
+		setTextField();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 473, 442);
+		setBounds(100, 100, 444, 442);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBackground(new Color(255, 182, 193));
-		panel.setBounds(10, 11, 437, 384);
+		panel.setBounds(10, 11, 408, 384);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JPanel panel_room = new JPanel();
+		panel_room = new JPanel();
 		panel_room.setBackground(new Color(255, 255, 255));
-		panel_room.setBounds(10, 11, 417, 364);
+		panel_room.setBounds(10, 11, 386, 364);
 		panel.add(panel_room);
 		panel_room.setLayout(null);
 		
@@ -104,92 +117,121 @@ public class AddRoomGUI extends JFrame {
 		
 		lblKhachHang = new JLabel("Khách Hàng");
 		lblKhachHang.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblKhachHang.setBounds(23, 54, 128, 23);
+		lblKhachHang.setBounds(23, 54, 98, 23);
 		panel_room.add(lblKhachHang);
 		
 		lblCheckIn = new JLabel("Check-in");
 		lblCheckIn.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblCheckIn.setHorizontalAlignment(SwingConstants.LEFT);
-		lblCheckIn.setBounds(23, 88, 128, 23);
+		lblCheckIn.setBounds(23, 88, 98, 23);
 		panel_room.add(lblCheckIn);
 		
 		lblCheckOut = new JLabel("Check-out");
 		lblCheckOut.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblCheckOut.setHorizontalAlignment(SwingConstants.LEFT);
-		lblCheckOut.setBounds(23, 122, 128, 23);
+		lblCheckOut.setBounds(23, 122, 98, 23);
 		panel_room.add(lblCheckOut);
 		
 		lblSoKhach = new JLabel("Số Khách");
 		lblSoKhach.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblSoKhach.setHorizontalAlignment(SwingConstants.LEFT);
-		lblSoKhach.setBounds(23, 156, 128, 23);
+		lblSoKhach.setBounds(23, 156, 98, 23);
 		panel_room.add(lblSoKhach);
 		
 		lblTien = new JLabel("Đặt Trước");
 		lblTien.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTien.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblTien.setBounds(23, 190, 128, 23);
+		lblTien.setBounds(23, 190, 98, 23);
 		panel_room.add(lblTien);
 		
 		lblMaPhong = new JLabel("Mã Phòng");
 		lblMaPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblMaPhong.setBounds(23, 224, 128, 23);
+		lblMaPhong.setBounds(23, 224, 98, 23);
 		panel_room.add(lblMaPhong);
 		
 		lblLoaiPhong = new JLabel("Loại Phòng");
 		lblLoaiPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblLoaiPhong.setBounds(23, 258, 128, 23);
+		lblLoaiPhong.setBounds(23, 258, 98, 23);
 		panel_room.add(lblLoaiPhong);
 		
 		lblMPhong = new JLabel("");
 		lblMPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblMPhong.setBounds(161, 225, 229, 23);
+		lblMPhong.setBounds(131, 224, 229, 23);
 		panel_room.add(lblMPhong);
 		
 		lblLPhong = new JLabel("");
 		lblLPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblLPhong.setBounds(161, 259, 229, 23);
+		lblLPhong.setBounds(131, 258, 229, 23);
 		panel_room.add(lblLPhong);
+		
+		this.lstResults = new ArrayList<>();
+		cbbKH = new JComboBox();
+		cbbKH.setBounds(131, 54, 229, 23);
+		cbbKH.addItem(customer.getHoTen());
+		panel_room.add(cbbKH);
+		
+		txtCheckOut = new JTextField();
+		txtCheckOut.setBounds(131, 123, 229, 23);
+		panel_room.add(txtCheckOut);
+		txtCheckOut.setColumns(10);
+		
+		txtCheckIn = new JTextField();
+		txtCheckIn.setColumns(10);
+		txtCheckIn.setBounds(131, 89, 229, 23);
+		panel_room.add(txtCheckIn);
+		
+		txtKhach = new JTextField();
+		txtKhach.setColumns(10);
+		txtKhach.setBounds(131, 157, 229, 23);
+		panel_room.add(txtKhach);
+		
+		txtTien = new JTextField();
+		txtTien.setColumns(10);
+		txtTien.setBounds(131, 191, 229, 23);
+		panel_room.add(txtTien);
 		
 		btnAdd = new JButton("Đặt Phòng");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 			}
 		});
-		btnAdd.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnAdd.setBounds(161, 326, 105, 23);
+		btnAdd.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		btnAdd.setBounds(138, 326, 105, 23);
 		panel_room.add(btnAdd);
 		
 		btnExit = new JButton("Thoát");
-		btnExit.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		btnExit.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnExit.setBounds(285, 326, 105, 23);
+		btnExit.setBounds(253, 326, 105, 23);
 		panel_room.add(btnExit);
 		
-		@SuppressWarnings("rawtypes")
-		JComboBox cbbKH = new JComboBox();
-		cbbKH.setBounds(161, 54, 229, 23);
-		panel_room.add(cbbKH);
+		btnKhachHang = new JButton("Khách Hàng");
+		btnKhachHang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CustomerGUI customerGUI = new CustomerGUI();
+				customerGUI.setVisible(true);
+			}
+		});
+		btnKhachHang.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		btnKhachHang.setBounds(23, 326, 105, 23);
+		panel_room.add(btnKhachHang);
 		
-		lblCheck_in = new JLabel("");
-		lblCheck_in.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblCheck_in.setBounds(161, 89, 229, 23);
-		panel_room.add(lblCheck_in);
-		
-		lblCheck_out = new JLabel("");
-		lblCheck_out.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblCheck_out.setBounds(161, 123, 229, 23);
-		panel_room.add(lblCheck_out);
-		
-		setTextField();
 	}
-	public void setTextField() {
+	private void setTextField() {
 		lblMPhong.setText(room.getMaPhong());
 		lblLPhong.setText(room.getTenLoai());
+	}
+	
+	public void resetTable() {
+		for (Customer customer : lstResults) {
+			ArrayList<String> item = new ArrayList<String>();
+			item.add(String.valueOf(customer.getHoTen()));
+			model.addRow(item.toArray());
+		}
+//		cbbKH.setModel(model);
 	}
 }

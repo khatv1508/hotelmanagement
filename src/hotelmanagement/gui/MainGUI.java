@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.border.EmptyBorder;
@@ -32,22 +33,38 @@ import hotelmanagement.service.ContractService;
 @SuppressWarnings("serial")
 public class MainGUI extends JFrame {
 
-	private JPanel contentPane;
+	
 	private ContractService contractService = new ContractService();
-	@SuppressWarnings("unused")
-	private RoomManage roomManage  = new RoomManage();
-	private Room room  = new Room();
+	private RoomManage roomManage;
+	private Room room;
 	private DefaultTableModel model = new DefaultTableModel();
 	private String[] tblHead = {"Tầng","Mã Phòng","Tên Khách Hàng", "Loại Phòng", "Ngày Đến", "Ngày Đi", "Giá Phòng", "Trạng Thái"};
 	
 	//
-	private String maPhong;
 	@SuppressWarnings("unused")
-	private String tenLoai;
+	private String maPhong, tenLoai;
+	private List<RoomManage> lstResults;
 	
 	//
-	private List<RoomManage> lstResults;
+	private JPanel contentPane;
+	
+	private JPanel panel;
+	private JPanel panel_Top;
+	private JPanel panel_Center;
+	
+	private JLabel lblTitle;
+	
+	private JButton btnKhachHang;
+	private JButton btnNhanVien;
+	private JButton btnPhong;
+	private JButton btnQuanLy;
+	private JButton btnDichVu;
+	private JButton btnThanhToan;
+	private JButton btnThoat;
+	
+	private JTree treeRoom;
 	private JTable tblRoom;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Create the frame. 
@@ -63,43 +80,50 @@ public class MainGUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		panel.setBounds(10, 11, 1297, 699);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JPanel panel_Top = new JPanel();
+		//
+		panel_Top = new JPanel();
 		panel_Top.setBackground(new Color(255, 182, 193));
 		panel_Top.setBounds(10, 11, 1273, 70);
 		panel.add(panel_Top);
 		panel_Top.setLayout(null);
 		
-		JLabel lblTitle = new JLabel("Hotel Management");
+		lblTitle = new JLabel("Hotel Management");
 		lblTitle.setIcon(new ImageIcon("D:\\VinhKha\\image\\hotel-icon (1).png"));
 		lblTitle.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblTitle.setBounds(10, 0, 288, 72);
 		panel_Top.add(lblTitle);
 		
-		JButton btnKhachHang = new JButton("Khách hàng");
+		btnKhachHang = new JButton("Khách hàng");
+		btnKhachHang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CustomerGUI customerGUI = new CustomerGUI();
+				customerGUI.setVisible(true);
+			}
+		});
 		btnKhachHang.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnKhachHang.setIcon(new ImageIcon("D:\\VinhKha\\image\\customer.png"));
 		btnKhachHang.setBounds(10, 94, 173, 41);
 		panel.add(btnKhachHang);
 		
-		JButton btnNhanVien = new JButton("Nhân viên");
+		btnNhanVien = new JButton("Nhân viên");
 		btnNhanVien.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnNhanVien.setIcon(new ImageIcon("D:\\VinhKha\\image\\staff.png"));
 		btnNhanVien.setBounds(193, 94, 173, 41);
 		panel.add(btnNhanVien);
 		
-		JButton btnPhong = new JButton("Phòng");
+		btnPhong = new JButton("Phòng");
 		btnPhong.setIcon(new ImageIcon("D:\\VinhKha\\image\\House-icon.png"));
 		btnPhong.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnPhong.setBounds(378, 94, 173, 41);
 		panel.add(btnPhong);
 		
-		JButton btnQuanLy = new JButton(" Đặt phòng");
+		btnQuanLy = new JButton(" Đặt phòng");
 		btnQuanLy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -109,7 +133,6 @@ public class MainGUI extends JFrame {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				
 			}
 		});
 		btnQuanLy.setFont(new Font("Times New Roman", Font.PLAIN, 13));
@@ -117,40 +140,37 @@ public class MainGUI extends JFrame {
 		btnQuanLy.setBounds(561, 94, 173, 41);
 		panel.add(btnQuanLy);
 		
-		JButton btnDichVu = new JButton("Dịch vụ");
-		btnDichVu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnDichVu = new JButton("Dịch vụ");
 		btnDichVu.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnDichVu.setIcon(new ImageIcon("D:\\VinhKha\\image\\service.png"));
 		btnDichVu.setBounds(744, 94, 173, 41);
 		panel.add(btnDichVu);
 		
-		JButton btnThanhToan = new JButton("Thanh toán");
+		btnThanhToan = new JButton("Thanh toán");
 		btnThanhToan.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnThanhToan.setIcon(new ImageIcon("D:\\VinhKha\\image\\pay.png"));
 		btnThanhToan.setBounds(927, 94, 173, 41);
 		panel.add(btnThanhToan);
 		
-		JButton btnExit = new JButton("Thoát");
-		btnExit.addActionListener(new ActionListener() {
+		btnThoat = new JButton("Thoát");
+		btnThoat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		btnExit.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnExit.setIcon(new ImageIcon("D:\\VinhKha\\image\\close-icon.png"));
-		btnExit.setBounds(1110, 94, 173, 41);
-		panel.add(btnExit);
+		btnThoat.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		btnThoat.setIcon(new ImageIcon("D:\\VinhKha\\image\\close-icon.png"));
+		btnThoat.setBounds(1110, 94, 173, 41);
+		panel.add(btnThoat);
 		
-		JPanel panel_Center = new JPanel();
+		//
+		panel_Center = new JPanel();
 		panel_Center.setBounds(10, 146, 1273, 542);
 		panel.add(panel_Center);
 		panel_Center.setLayout(null);
 		
 		this.lstResults = new ArrayList<>();
-		JTree treeRoom = new JTree();
+		treeRoom = new JTree();
 		treeRoom.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		treeRoom.setModel(new DefaultTreeModel(
 			new DefaultMutableTreeNode("Khu vực") {
@@ -211,6 +231,10 @@ public class MainGUI extends JFrame {
 		tblRoom.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		tblRoom.setBounds(183, 11, 1078, 520);;
 		resetTable();
+		getTableData();
+		scrollPane = new JScrollPane(tblRoom);
+        scrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, new JButton("..."));
+        panel_Center.add(scrollPane); 
 		tblRoom.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
 	        	maPhong = tblRoom.getValueAt(tblRoom.getSelectedRow(), 1).toString();
@@ -236,6 +260,13 @@ public class MainGUI extends JFrame {
 			item.add(roomManage.getTrangThai());
 			model.addRow(item.toArray());
 		}
+		tblRoom.setModel(model);
+	}
+	
+	private void getTableData(){
+		tblRoom.clearSelection();
+		tblRoom.getSelectionModel().clearSelection();
+		tblRoom.removeAll();
 		tblRoom.setModel(model);
 	}
 }
