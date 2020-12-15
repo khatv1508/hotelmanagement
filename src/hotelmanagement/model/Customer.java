@@ -44,4 +44,10 @@ public class Customer {
 	public void setQuocTich(String quocTich) {
 		this.quocTich = quocTich;
 	}
+	
+	
+	@Override
+	public String toString() {
+         return getHoTen();
+    }
 }

@@ -4,9 +4,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import hotelmanagement.db.DBHelper;
+import hotelmanagement.model.CreateRoom;
 import hotelmanagement.model.Customer;
 import hotelmanagement.model.ResultMessage;
 import hotelmanagement.model.Room;
@@ -33,7 +35,7 @@ public class ContractService {
 			"(HoTen, GioiTinh, SDT, CMND, QuocTich) " +
 			"VALUES(?, ?, ?, ?, ?)";
 	private String SELECT_CUSTOMER = "SELECT * FROM KhachHang";
-	private String UPDATE_CUSTOMER = "UPDATE KhachHang set GioiTinh=?, SDT=?, CMND=?, QuocTich=? WHERE HoTen= ?";
+	private String UPDATE_CUSTOMER = "UPDATE KhachHang set GioiTinh = ?, SDT = ?, CMND = ?, QuocTich = ? WHERE HoTen = ?";
 	private String DELETE_CUSTOMER = "DELETE KhachHang WHERE HoTen = ?";
 	
 	private String INSERT_ADDROOM = "INSERT INTO QuanLyDatPhong" +
@@ -47,7 +49,8 @@ public class ContractService {
 			"	, p.SoGiuong" + 
 			"	, p.GiaPhong " + 
 			"from Phong p" + 
-			"	INNER JOIN LoaiPhong lp ON (lp.ID_Loai = p.ID_Loai)";
+			"	INNER JOIN LoaiPhong lp ON (lp.ID_Loai = p.ID_Loai)" +
+			"Where p.MaPhong = ?";
 	
 	// list room
 	public List<RoomManage> lstRoom(int tang) throws SQLException{
@@ -74,8 +77,8 @@ public class ContractService {
 			roomManage.setMaPhong(rs.getString(3));
 			roomManage.setHoTen(rs.getString(4));
 			roomManage.setTenLoai(rs.getString(5));
-			roomManage.setCheckIn(rs.getDate(6));
-			roomManage.setCheckOut(rs.getDate(7));
+			roomManage.setCheckIn(rs.getString(6));
+			roomManage.setCheckOut(rs.getString(7));
 			roomManage.setDonGia(rs.getInt(8));
 			roomManage.setTrangThai(rs.getString(9));
 			
@@ -99,7 +102,7 @@ public class ContractService {
 	        	room.setMaPhong(rs.getString("maPhong"));
 	        	room.setTang(rs.getInt("tang"));
 	        	room.setTenLoai(rs.getString("tenLoai"));
-	        	room.setGiuong(rs.getInt("giuong"));
+//	        	room.setGiuong(rs.getInt("giuong"));
 	        	room.setGiaPhong(rs.getLong("giaPhong"));
 	        }
 		}
@@ -121,6 +124,7 @@ public class ContractService {
             	customer.setQuocTich(rs.getString("quocTich"));
                
                list.add(customer);
+               customer = new Customer();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -178,5 +182,27 @@ public class ContractService {
         }
         
         return false;
+    }
+    
+    // insert dat phong
+    public ResultMessage createRoom(CreateRoom createRoom) throws SQLException{
+		ResultMessage resultMessage = new ResultMessage();
+		PreparedStatement preparedStatement = DBHelper.getPreparedStatement(INSERT_ADDROOM);
+		if (preparedStatement != null){
+			preparedStatement.setString(1, createRoom.getMaPhong());
+			preparedStatement.setString(2, createRoom.getCheckIn());
+			preparedStatement.setString(3, createRoom.getCheckOut());
+			preparedStatement.setDouble(4, createRoom.getSoKhach());
+			preparedStatement.setDouble(5, createRoom.getNam());
+			preparedStatement.setDouble(6, createRoom.getTreEm());
+			preparedStatement.setDouble(7, createRoom.getDonGia());
+			preparedStatement.setDouble(8, createRoom.getPhuThu());
+			preparedStatement.setString(9, createRoom.getTrangThai());
+			
+			preparedStatement.executeUpdate();
+			resultMessage.setMsgCode(ResultMessage.MSG_ADD_ROOM);
+		}
+		
+		return resultMessage;
     }
 }

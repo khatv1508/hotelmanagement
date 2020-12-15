@@ -19,6 +19,8 @@ public class ResultMessage {
 	public static final String MSG_LOGIN_FAIL = "Tài khoản hoặc mật khẩu không đúng";
 	
 	public String msgCode;
+	public String content;
+	
 	public String getMsgCode() {
 		return msgCode;
 	}
@@ -31,5 +33,4 @@ public class ResultMessage {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String content;
 }

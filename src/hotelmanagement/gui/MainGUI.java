@@ -13,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.border.EmptyBorder;
@@ -35,14 +34,14 @@ public class MainGUI extends JFrame {
 
 	
 	private ContractService contractService = new ContractService();
-	private RoomManage roomManage;
+//	private RoomManage roomManage;
 	private Room room;
 	private DefaultTableModel model = new DefaultTableModel();
 	private String[] tblHead = {"Tầng","Mã Phòng","Tên Khách Hàng", "Loại Phòng", "Ngày Đến", "Ngày Đi", "Giá Phòng", "Trạng Thái"};
 	
 	//
 	@SuppressWarnings("unused")
-	private String maPhong, tenLoai;
+	private String maPhong, tenLoai, giaPhong;
 	private List<RoomManage> lstResults;
 	
 	//
@@ -64,7 +63,6 @@ public class MainGUI extends JFrame {
 	
 	private JTree treeRoom;
 	private JTable tblRoom;
-	private JScrollPane scrollPane;
 
 	/**
 	 * Create the frame. 
@@ -232,15 +230,11 @@ public class MainGUI extends JFrame {
 		tblRoom.setBounds(183, 11, 1078, 520);;
 		resetTable();
 		getTableData();
-		scrollPane = new JScrollPane(tblRoom);
-        scrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, new JButton("..."));
-        panel_Center.add(scrollPane); 
 		tblRoom.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
 	        	maPhong = tblRoom.getValueAt(tblRoom.getSelectedRow(), 1).toString();
 	        	tenLoai = tblRoom.getValueAt(tblRoom.getSelectedRow(), 3).toString();
-//		        System.out.println(maPhong);
-//		        System.out.println(tenLoai);
+	        	giaPhong = tblRoom.getValueAt(tblRoom.getSelectedRow(), 6).toString();
 	        }
 	    });
 		panel_Center.add(tblRoom);

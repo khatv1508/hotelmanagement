@@ -6,9 +6,15 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import hotelmanagement.db.DBHelper;
+import hotelmanagement.model.CreateRoom;
 import hotelmanagement.model.Customer;
 import hotelmanagement.model.ResultMessage;
 import hotelmanagement.model.Room;
@@ -33,10 +40,13 @@ public class AddRoomGUI extends JFrame {
 	private ContractService contractService = new ContractService();
 	private ResultMessage resultMessage = new ResultMessage();
 	private Customer customer = new Customer();
-	private static RoomManage roomManage = new RoomManage();
 	private static Room room = new Room();
-	private List<Customer> lstResults;
+	private CreateRoom createRoom = new CreateRoom();
+	
+	private List<Customer> list;
 	private DefaultTableModel model = new DefaultTableModel();
+	@SuppressWarnings("rawtypes")
+	private DefaultComboBoxModel modelCombo = new DefaultComboBoxModel();
 	
 	private JPanel panel;
 	private JPanel panel_room;
@@ -51,10 +61,14 @@ public class AddRoomGUI extends JFrame {
 	private JLabel lblLoaiPhong;
 	private JLabel lblMPhong;
 	private JLabel lblLPhong;
+	private JLabel lblGiaPhong;
+	private JLabel lblNam;
+	private JLabel lblTreEm;
+	private JLabel lblGPhong;
 
 	private JTextField txtCheckOut;
 	private JTextField txtCheckIn;
-	private JTextField txtKhach;
+	private JTextField txtSKhach;
 	private JTextField txtTien;
 	
 	private JPanel contentPane;
@@ -63,6 +77,8 @@ public class AddRoomGUI extends JFrame {
 	private JButton btnKhachHang;
 	private JButton btnAdd;
 	private JButton btnExit;
+	private JTextField txtNam;
+	private JTextField txtTreEm;
 	
 	/**
 	 * Launch the application.
@@ -87,10 +103,9 @@ public class AddRoomGUI extends JFrame {
 	@SuppressWarnings({ "static-access", "unchecked", "rawtypes" })
 	public AddRoomGUI(Room room) {
 		this.room = room;
-		setTextField();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 444, 442);
+		setBounds(100, 100, 445, 518);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -99,13 +114,13 @@ public class AddRoomGUI extends JFrame {
 		
 		panel = new JPanel();
 		panel.setBackground(new Color(255, 182, 193));
-		panel.setBounds(10, 11, 408, 384);
+		panel.setBounds(10, 11, 408, 457);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		panel_room = new JPanel();
 		panel_room.setBackground(new Color(255, 255, 255));
-		panel_room.setBounds(10, 11, 386, 364);
+		panel_room.setBounds(10, 11, 386, 435);
 		panel.add(panel_room);
 		panel_room.setLayout(null);
 		
@@ -117,86 +132,147 @@ public class AddRoomGUI extends JFrame {
 		
 		lblKhachHang = new JLabel("Khách Hàng");
 		lblKhachHang.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblKhachHang.setBounds(23, 54, 98, 23);
+		lblKhachHang.setBounds(23, 155, 98, 23);
 		panel_room.add(lblKhachHang);
 		
 		lblCheckIn = new JLabel("Check-in");
 		lblCheckIn.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblCheckIn.setHorizontalAlignment(SwingConstants.LEFT);
-		lblCheckIn.setBounds(23, 88, 98, 23);
+		lblCheckIn.setBounds(23, 189, 98, 23);
 		panel_room.add(lblCheckIn);
 		
 		lblCheckOut = new JLabel("Check-out");
 		lblCheckOut.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblCheckOut.setHorizontalAlignment(SwingConstants.LEFT);
-		lblCheckOut.setBounds(23, 122, 98, 23);
+		lblCheckOut.setBounds(23, 223, 98, 23);
 		panel_room.add(lblCheckOut);
 		
 		lblSoKhach = new JLabel("Số Khách");
 		lblSoKhach.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblSoKhach.setHorizontalAlignment(SwingConstants.LEFT);
-		lblSoKhach.setBounds(23, 156, 98, 23);
+		lblSoKhach.setBounds(23, 257, 98, 23);
 		panel_room.add(lblSoKhach);
+		
+		lblNam = new JLabel("Nam");
+		lblNam.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNam.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		lblNam.setBounds(23, 291, 98, 23);
+		panel_room.add(lblNam);
+		
+		lblTreEm = new JLabel("Trẻ Em");
+		lblTreEm.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTreEm.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		lblTreEm.setBounds(23, 325, 98, 23);
+		panel_room.add(lblTreEm);
 		
 		lblTien = new JLabel("Đặt Trước");
 		lblTien.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTien.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblTien.setBounds(23, 190, 98, 23);
+		lblTien.setBounds(23, 360, 98, 23);
 		panel_room.add(lblTien);
 		
 		lblMaPhong = new JLabel("Mã Phòng");
 		lblMaPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblMaPhong.setBounds(23, 224, 98, 23);
+		lblMaPhong.setBounds(23, 54, 98, 23);
 		panel_room.add(lblMaPhong);
 		
 		lblLoaiPhong = new JLabel("Loại Phòng");
 		lblLoaiPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblLoaiPhong.setBounds(23, 258, 98, 23);
+		lblLoaiPhong.setBounds(23, 88, 98, 23);
 		panel_room.add(lblLoaiPhong);
+		
+		lblGiaPhong = new JLabel("Giá Phòng");
+		lblGiaPhong.setHorizontalAlignment(SwingConstants.LEFT);
+		lblGiaPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		lblGiaPhong.setBounds(23, 121, 98, 23);
+		panel_room.add(lblGiaPhong);
 		
 		lblMPhong = new JLabel("");
 		lblMPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblMPhong.setBounds(131, 224, 229, 23);
+		lblMPhong.setBounds(131, 54, 229, 23);
+		lblMPhong.setText(room.getMaPhong());
 		panel_room.add(lblMPhong);
 		
 		lblLPhong = new JLabel("");
 		lblLPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblLPhong.setBounds(131, 258, 229, 23);
+		lblLPhong.setBounds(131, 88, 229, 23);
+		lblLPhong.setText(room.getTenLoai());
 		panel_room.add(lblLPhong);
 		
-		this.lstResults = new ArrayList<>();
+		lblGPhong = new JLabel((String) null);
+		lblGPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		lblGPhong.setBounds(131, 121, 229, 23);
+		lblGPhong.setText(String.valueOf(room.getGiaPhong()));
+		panel_room.add(lblGPhong);
+		
+		list = contractService.getListCustomer();
 		cbbKH = new JComboBox();
-		cbbKH.setBounds(131, 54, 229, 23);
-		cbbKH.addItem(customer.getHoTen());
+		cbbKH.setBounds(131, 155, 229, 23);
+		modelCombo = new DefaultComboBoxModel();
+		for (Customer customer : list) {
+			modelCombo.addElement(customer);
+		}
+		
+		cbbKH.setModel(modelCombo);;
 		panel_room.add(cbbKH);
 		
 		txtCheckOut = new JTextField();
-		txtCheckOut.setBounds(131, 123, 229, 23);
+		txtCheckOut.setBounds(131, 224, 229, 23);
 		panel_room.add(txtCheckOut);
 		txtCheckOut.setColumns(10);
 		
 		txtCheckIn = new JTextField();
 		txtCheckIn.setColumns(10);
-		txtCheckIn.setBounds(131, 89, 229, 23);
+		txtCheckIn.setBounds(131, 190, 229, 23);
 		panel_room.add(txtCheckIn);
 		
-		txtKhach = new JTextField();
-		txtKhach.setColumns(10);
-		txtKhach.setBounds(131, 157, 229, 23);
-		panel_room.add(txtKhach);
+		txtSKhach = new JTextField();
+		txtSKhach.setColumns(10);
+		txtSKhach.setBounds(131, 258, 229, 23);
+		panel_room.add(txtSKhach);
 		
 		txtTien = new JTextField();
 		txtTien.setColumns(10);
-		txtTien.setBounds(131, 191, 229, 23);
+		txtTien.setBounds(131, 361, 229, 23);
 		panel_room.add(txtTien);
+		
+		txtNam = new JTextField();
+		txtNam.setColumns(10);
+		txtNam.setBounds(131, 292, 229, 23);
+		panel_room.add(txtNam);
+		
+		txtTreEm = new JTextField();
+		txtTreEm.setColumns(10);
+		txtTreEm.setBounds(131, 326, 229, 23);
+		panel_room.add(txtTreEm);
 		
 		btnAdd = new JButton("Đặt Phòng");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					Date date = Calendar.getInstance().getTime();  
+					DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd"); 
+					String strDate = dateFormat.format(date); 
+					createRoom.setCheckIn(txtCheckIn.getText());
+					createRoom.setCheckOut(txtCheckOut.getText());
+					createRoom.setSoKhach(new Long(txtSKhach.getText()));
+					createRoom.setNam(new Long(txtNam.getText()));
+					createRoom.setTreEm(new Long(txtTreEm.getText()));
+					createRoom.setDonGia(new Long(txtTien.getText()));
+					
+					resultMessage = contractService.createRoom(createRoom);
+					if(resultMessage.getMsgCode() == ResultMessage.MSG_CODE_SUCCESS) {
+						AbstractMainGUI.showDialog(resultMessage);
+					}
+				} catch (SQLException e1) {
+					DBHelper.printSQLException(e1);
+					AbstractMainGUI.showErrDialog();
+				}
+				
 			}
 		});
 		btnAdd.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnAdd.setBounds(138, 326, 105, 23);
+		btnAdd.setBounds(138, 401, 105, 23);
 		panel_room.add(btnAdd);
 		
 		btnExit = new JButton("Thoát");
@@ -206,7 +282,7 @@ public class AddRoomGUI extends JFrame {
 				dispose();
 			}
 		});
-		btnExit.setBounds(253, 326, 105, 23);
+		btnExit.setBounds(253, 401, 105, 23);
 		panel_room.add(btnExit);
 		
 		btnKhachHang = new JButton("Khách Hàng");
@@ -217,21 +293,9 @@ public class AddRoomGUI extends JFrame {
 			}
 		});
 		btnKhachHang.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnKhachHang.setBounds(23, 326, 105, 23);
+		btnKhachHang.setBounds(23, 401, 105, 23);
 		panel_room.add(btnKhachHang);
 		
-	}
-	private void setTextField() {
-		lblMPhong.setText(room.getMaPhong());
-		lblLPhong.setText(room.getTenLoai());
-	}
-	
-	public void resetTable() {
-		for (Customer customer : lstResults) {
-			ArrayList<String> item = new ArrayList<String>();
-			item.add(String.valueOf(customer.getHoTen()));
-			model.addRow(item.toArray());
-		}
-//		cbbKH.setModel(model);
+		
 	}
 }

@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -22,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import hotelmanagement.db.DBHelper;
 import hotelmanagement.model.Customer;
 import hotelmanagement.model.ResultMessage;
 import hotelmanagement.service.ContractService;
@@ -170,11 +172,10 @@ public class CustomerGUI extends JFrame {
 				if(contractService.addCustomer(customer))
 			        	list.add(customer);
 			    showResult();
-				AbstractMainGUI.showDialog(resultMessage);
-			    if(resultMessage.getMsgCode() == ResultMessage.MSG_CUSTOMER) {
-					AbstractMainGUI.showDialog(resultMessage);
-				}
-				
+//				AbstractMainGUI.showDialog(resultMessage);
+//			    if(resultMessage.getMsgCode() == ResultMessage.MSG_CODE_SUCCESS) {
+//			    	AbstractMainGUI.showDialog(resultMessage);
+//				}	
 			}
 		});
 		btnThem.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
@@ -199,9 +200,9 @@ public class CustomerGUI extends JFrame {
 						list.add(customer);
 						showResult();
 					}
-				 if(resultMessage.getMsgCode() == ResultMessage.MSG_UPDATE_CUSTOMER) {
-						AbstractMainGUI.showDialog(resultMessage);
-					}
+//				 if(resultMessage.getMsgCode() == ResultMessage.MSG_UPDATE_CUSTOMER) {
+//						AbstractMainGUI.showDialog(resultMessage);
+//					}
 			}
 		});
 		btnSua.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
@@ -229,7 +230,7 @@ public class CustomerGUI extends JFrame {
 		btnXoa.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
 		panel.add(btnXoa);
 		
-		btnExit = new JButton("Xóa");
+		btnExit = new JButton("Thoát");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
