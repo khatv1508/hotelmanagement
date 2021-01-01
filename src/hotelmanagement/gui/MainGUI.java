@@ -92,7 +92,7 @@ public class MainGUI extends JFrame {
 		panel_Top.setLayout(null);
 		
 		lblTitle = new JLabel("Hotel Management");
-		lblTitle.setIcon(new ImageIcon("D:\\VinhKha\\image\\hotel-icon (1).png"));
+		lblTitle.setIcon(new ImageIcon("D:\\VinhKha\\image\\hotel\\hotel-icon (1).png"));
 		lblTitle.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblTitle.setBounds(10, 0, 288, 72);
 		panel_Top.add(lblTitle);
@@ -105,18 +105,18 @@ public class MainGUI extends JFrame {
 			}
 		});
 		btnKhachHang.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnKhachHang.setIcon(new ImageIcon("D:\\VinhKha\\image\\customer.png"));
+		btnKhachHang.setIcon(new ImageIcon("D:\\VinhKha\\image\\hotel\\customer.png"));
 		btnKhachHang.setBounds(10, 94, 173, 41);
 		panel.add(btnKhachHang);
 		
 		btnNhanVien = new JButton("Nhân viên");
 		btnNhanVien.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnNhanVien.setIcon(new ImageIcon("D:\\VinhKha\\image\\staff.png"));
+		btnNhanVien.setIcon(new ImageIcon("D:\\VinhKha\\image\\hotel\\staff.png"));
 		btnNhanVien.setBounds(193, 94, 173, 41);
 		panel.add(btnNhanVien);
 		
 		btnPhong = new JButton("Phòng");
-		btnPhong.setIcon(new ImageIcon("D:\\VinhKha\\image\\House-icon.png"));
+		btnPhong.setIcon(new ImageIcon("D:\\VinhKha\\image\\hotel\\House-icon.png"));
 		btnPhong.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnPhong.setBounds(378, 94, 173, 41);
 		panel.add(btnPhong);
@@ -134,19 +134,19 @@ public class MainGUI extends JFrame {
 			}
 		});
 		btnQuanLy.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnQuanLy.setIcon(new ImageIcon("D:\\VinhKha\\image\\door-icon.png"));
+		btnQuanLy.setIcon(new ImageIcon("D:\\VinhKha\\image\\hotel\\door-icon.png"));
 		btnQuanLy.setBounds(561, 94, 173, 41);
 		panel.add(btnQuanLy);
 		
 		btnDichVu = new JButton("Dịch vụ");
 		btnDichVu.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnDichVu.setIcon(new ImageIcon("D:\\VinhKha\\image\\service.png"));
+		btnDichVu.setIcon(new ImageIcon("D:\\VinhKha\\image\\hotel\\service.png"));
 		btnDichVu.setBounds(744, 94, 173, 41);
 		panel.add(btnDichVu);
 		
 		btnThanhToan = new JButton("Thanh toán");
 		btnThanhToan.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnThanhToan.setIcon(new ImageIcon("D:\\VinhKha\\image\\pay.png"));
+		btnThanhToan.setIcon(new ImageIcon("D:\\VinhKha\\image\\hotel\\pay.png"));
 		btnThanhToan.setBounds(927, 94, 173, 41);
 		panel.add(btnThanhToan);
 		
@@ -157,7 +157,7 @@ public class MainGUI extends JFrame {
 			}
 		});
 		btnThoat.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnThoat.setIcon(new ImageIcon("D:\\VinhKha\\image\\close-icon.png"));
+		btnThoat.setIcon(new ImageIcon("D:\\VinhKha\\image\\hotel\\close-icon.png"));
 		btnThoat.setBounds(1110, 94, 173, 41);
 		panel.add(btnThoat);
 		

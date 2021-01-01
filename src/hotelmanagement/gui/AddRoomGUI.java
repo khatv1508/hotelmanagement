@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,6 +58,7 @@ public class AddRoomGUI extends JFrame {
 	private JLabel lblCheckOut;
 	private JLabel lblSoKhach;
 	private JLabel lblTien;
+	private JLabel lblTragThai;
 	private JLabel lblMaPhong;
 	private JLabel lblLoaiPhong;
 	private JLabel lblMPhong;
@@ -79,6 +81,7 @@ public class AddRoomGUI extends JFrame {
 	private JButton btnExit;
 	private JTextField txtNam;
 	private JTextField txtTreEm;
+	private JTextField txtTrangThai;
 	
 	/**
 	 * Launch the application.
@@ -105,7 +108,7 @@ public class AddRoomGUI extends JFrame {
 		this.room = room;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 445, 518);
+		setBounds(100, 100, 445, 550);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -114,13 +117,13 @@ public class AddRoomGUI extends JFrame {
 		
 		panel = new JPanel();
 		panel.setBackground(new Color(255, 182, 193));
-		panel.setBounds(10, 11, 408, 457);
+		panel.setBounds(10, 11, 408, 489);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		panel_room = new JPanel();
 		panel_room.setBackground(new Color(255, 255, 255));
-		panel_room.setBounds(10, 11, 386, 435);
+		panel_room.setBounds(10, 11, 386, 467);
 		panel.add(panel_room);
 		panel_room.setLayout(null);
 		
@@ -170,6 +173,12 @@ public class AddRoomGUI extends JFrame {
 		lblTien.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblTien.setBounds(23, 360, 98, 23);
 		panel_room.add(lblTien);
+		
+		lblTragThai = new JLabel("Trạng Thái");
+		lblTragThai.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTragThai.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		lblTragThai.setBounds(23, 394, 98, 23);
+		panel_room.add(lblTragThai);
 		
 		lblMaPhong = new JLabel("Mã Phòng");
 		lblMaPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
@@ -246,22 +255,33 @@ public class AddRoomGUI extends JFrame {
 		txtTreEm.setBounds(131, 326, 229, 23);
 		panel_room.add(txtTreEm);
 		
+		txtTrangThai = new JTextField();
+		txtTrangThai.setColumns(10);
+		txtTrangThai.setBounds(131, 395, 229, 23);
+		panel_room.add(txtTrangThai);
+		
 		btnAdd = new JButton("Đặt Phòng");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Date date = Calendar.getInstance().getTime();  
-					DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd"); 
-					String strDate = dateFormat.format(date); 
+					
+					Customer customer = list.get(cbbKH.getSelectedIndex());
+//					Date date = Calendar.getInstance().getTime();  
+//					DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");  
+//					String strDate = dateFormat.format(date);
+					createRoom.setMaPhong(room.getMaPhong());
+					createRoom.setKhachHang(customer.getIdKhachHang());
 					createRoom.setCheckIn(txtCheckIn.getText());
 					createRoom.setCheckOut(txtCheckOut.getText());
-					createRoom.setSoKhach(new Long(txtSKhach.getText()));
-					createRoom.setNam(new Long(txtNam.getText()));
-					createRoom.setTreEm(new Long(txtTreEm.getText()));
-					createRoom.setDonGia(new Long(txtTien.getText()));
+					createRoom.setSoKhach(Integer.parseInt(txtSKhach.getText()));
+					createRoom.setNam(Integer.parseInt(txtNam.getText()));
+					createRoom.setTreEm(Integer.parseInt(txtTreEm.getText()));
+					createRoom.setDonGia(room.getGiaPhong());
+					createRoom.setTienCoc(Long.valueOf(txtTien.getText()));
+					createRoom.setTrangThai(txtTrangThai.getText());
 					
 					resultMessage = contractService.createRoom(createRoom);
-					if(resultMessage.getMsgCode() == ResultMessage.MSG_CODE_SUCCESS) {
+					if(resultMessage.getMsgCode() == ResultMessage.MSG_ADD_ROOM) {
 						AbstractMainGUI.showDialog(resultMessage);
 					}
 				} catch (SQLException e1) {
@@ -272,7 +292,7 @@ public class AddRoomGUI extends JFrame {
 			}
 		});
 		btnAdd.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnAdd.setBounds(138, 401, 105, 23);
+		btnAdd.setBounds(140, 433, 105, 23);
 		panel_room.add(btnAdd);
 		
 		btnExit = new JButton("Thoát");
@@ -282,7 +302,7 @@ public class AddRoomGUI extends JFrame {
 				dispose();
 			}
 		});
-		btnExit.setBounds(253, 401, 105, 23);
+		btnExit.setBounds(255, 433, 105, 23);
 		panel_room.add(btnExit);
 		
 		btnKhachHang = new JButton("Khách Hàng");
@@ -293,9 +313,7 @@ public class AddRoomGUI extends JFrame {
 			}
 		});
 		btnKhachHang.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnKhachHang.setBounds(23, 401, 105, 23);
+		btnKhachHang.setBounds(23, 433, 105, 23);
 		panel_room.add(btnKhachHang);
-		
-		
 	}
 }

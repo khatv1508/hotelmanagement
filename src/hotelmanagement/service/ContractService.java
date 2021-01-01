@@ -39,8 +39,8 @@ public class ContractService {
 	private String DELETE_CUSTOMER = "DELETE KhachHang WHERE HoTen = ?";
 	
 	private String INSERT_ADDROOM = "INSERT INTO QuanLyDatPhong" +
-			"(ID_KH, MaPhong, Check_in, Check_out, SoKhach, Nam, TreEm, GiaPhong, PhuThu, TienCoc, TrangThai) " + 
-			"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			"(ID_KH, MaPhong, Check_in, Check_out, SoKhach, Nam, TreEm, GiaPhong, TienCoc, TrangThai) " + 
+			"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	private String SELECT_ROOM_TYPE = "select" + 
 			"	p.MaPhong" + 
@@ -102,7 +102,6 @@ public class ContractService {
 	        	room.setMaPhong(rs.getString("maPhong"));
 	        	room.setTang(rs.getInt("tang"));
 	        	room.setTenLoai(rs.getString("tenLoai"));
-//	        	room.setGiuong(rs.getInt("giuong"));
 	        	room.setGiaPhong(rs.getLong("giaPhong"));
 	        }
 		}
@@ -117,6 +116,7 @@ public class ContractService {
             PreparedStatement ps = DBHelper.getPreparedStatement(SELECT_CUSTOMER);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
+            	customer.setIdKhachHang(rs.getInt("ID_KH"));
             	customer.setHoTen(rs.getString("hoTen"));
             	customer.setGioiTinh(rs.getString("gioiTinh"));
             	customer.setSdt(rs.getString("sdt"));
@@ -189,15 +189,16 @@ public class ContractService {
 		ResultMessage resultMessage = new ResultMessage();
 		PreparedStatement preparedStatement = DBHelper.getPreparedStatement(INSERT_ADDROOM);
 		if (preparedStatement != null){
-			preparedStatement.setString(1, createRoom.getMaPhong());
-			preparedStatement.setString(2, createRoom.getCheckIn());
-			preparedStatement.setString(3, createRoom.getCheckOut());
-			preparedStatement.setDouble(4, createRoom.getSoKhach());
-			preparedStatement.setDouble(5, createRoom.getNam());
-			preparedStatement.setDouble(6, createRoom.getTreEm());
-			preparedStatement.setDouble(7, createRoom.getDonGia());
-			preparedStatement.setDouble(8, createRoom.getPhuThu());
-			preparedStatement.setString(9, createRoom.getTrangThai());
+			preparedStatement.setInt(1, createRoom.getIdKhachHang());
+			preparedStatement.setString(2, createRoom.getMaPhong());
+			preparedStatement.setString(3, createRoom.getCheckIn());
+			preparedStatement.setString(4, createRoom.getCheckOut());
+			preparedStatement.setInt(5, createRoom.getSoKhach());
+			preparedStatement.setInt(6, createRoom.getNam());
+			preparedStatement.setInt(7, createRoom.getTreEm());
+			preparedStatement.setDouble(8, createRoom.getDonGia());
+			preparedStatement.setDouble(9, createRoom.getTienCoc());
+			preparedStatement.setString(10, createRoom.getTrangThai());
 			
 			preparedStatement.executeUpdate();
 			resultMessage.setMsgCode(ResultMessage.MSG_ADD_ROOM);
