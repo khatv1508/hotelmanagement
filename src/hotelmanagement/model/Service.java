@@ -4,7 +4,7 @@ public class Service {
 	private int idDichVu;
 	private String tenDV;
 	private String dvt;
-	private float giaDV;
+	private double giaDV;
 	
 	public int getIdDichVu() {
 		return idDichVu;
@@ -24,10 +24,10 @@ public class Service {
 	public void setDvt(String dvt) {
 		this.dvt = dvt;
 	}
-	public float getGiaDV() {
+	public double getGiaDV() {
 		return giaDV;
 	}
-	public void setGiaDV(float giaDV) {
+	public void setGiaDV(double giaDV) {
 		this.giaDV = giaDV;
 	}
 

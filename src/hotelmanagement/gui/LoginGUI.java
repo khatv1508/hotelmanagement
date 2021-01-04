@@ -68,6 +68,7 @@ public class LoginGUI extends JFrame {
 		txtName.setColumns(10);
 		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.setBackground(Color.WHITE);
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -101,6 +102,7 @@ public class LoginGUI extends JFrame {
 		contentPane.add(btnLogin);
 		
 		JButton btnExit = new JButton("Exit");
+		btnExit.setBackground(Color.WHITE);
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);

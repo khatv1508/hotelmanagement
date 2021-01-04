@@ -110,25 +110,25 @@ public class AddRoomGUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 445, 550);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(255, 255, 255));
+		contentPane.setBackground(new Color(255, 182, 193));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBackground(new Color(255, 182, 193));
+		panel.setBackground(Color.WHITE);
 		panel.setBounds(10, 11, 408, 489);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		panel_room = new JPanel();
-		panel_room.setBackground(new Color(255, 255, 255));
+		panel_room.setBackground(new Color(255, 182, 193));
 		panel_room.setBounds(10, 11, 386, 467);
 		panel.add(panel_room);
 		panel_room.setLayout(null);
 		
 		lblAddRoom = new JLabel("Đặt Phòng");
-		lblAddRoom.setBounds(161, 11, 138, 32);
+		lblAddRoom.setBounds(140, 11, 138, 32);
 		lblAddRoom.setIcon(new ImageIcon("D:\\VinhKha\\image\\door-icon.png"));
 		lblAddRoom.setFont(new Font("Times New Roman", Font.PLAIN, 24));
 		panel_room.add(lblAddRoom);
@@ -197,6 +197,7 @@ public class AddRoomGUI extends JFrame {
 		panel_room.add(lblGiaPhong);
 		
 		lblMPhong = new JLabel("");
+		lblMPhong.setBackground(new Color(255, 182, 193));
 		lblMPhong.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblMPhong.setBounds(131, 54, 229, 23);
 		lblMPhong.setText(room.getMaPhong());
@@ -221,8 +222,7 @@ public class AddRoomGUI extends JFrame {
 		for (Customer customer : list) {
 			modelCombo.addElement(customer);
 		}
-		
-		cbbKH.setModel(modelCombo);;
+		cbbKH.setModel(modelCombo);
 		panel_room.add(cbbKH);
 		
 		txtCheckOut = new JTextField();
@@ -261,6 +261,7 @@ public class AddRoomGUI extends JFrame {
 		panel_room.add(txtTrangThai);
 		
 		btnAdd = new JButton("Đặt Phòng");
+		btnAdd.setBackground(Color.WHITE);
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -296,6 +297,7 @@ public class AddRoomGUI extends JFrame {
 		panel_room.add(btnAdd);
 		
 		btnExit = new JButton("Thoát");
+		btnExit.setBackground(Color.WHITE);
 		btnExit.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -306,6 +308,7 @@ public class AddRoomGUI extends JFrame {
 		panel_room.add(btnExit);
 		
 		btnKhachHang = new JButton("Khách Hàng");
+		btnKhachHang.setBackground(Color.WHITE);
 		btnKhachHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CustomerGUI customerGUI = new CustomerGUI();

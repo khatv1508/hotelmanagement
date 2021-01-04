@@ -25,6 +25,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
+import hotelmanagement.model.CreateRoom;
 import hotelmanagement.model.Room;
 import hotelmanagement.model.RoomManage;
 import hotelmanagement.service.ContractService;
@@ -34,7 +35,7 @@ public class MainGUI extends JFrame {
 
 	
 	private ContractService contractService = new ContractService();
-//	private RoomManage roomManage;
+	private CreateRoom roomManage;
 	private Room room;
 	private DefaultTableModel model = new DefaultTableModel();
 	private String[] tblHead = {"Tầng","Mã Phòng","Tên Khách Hàng", "Loại Phòng", "Ngày Đến", "Ngày Đi", "Giá Phòng", "Trạng Thái"};
@@ -42,6 +43,7 @@ public class MainGUI extends JFrame {
 	//
 	@SuppressWarnings("unused")
 	private String maPhong, tenLoai, giaPhong;
+	private int idQLDPhong;
 	private List<RoomManage> lstResults;
 	
 	//
@@ -98,6 +100,7 @@ public class MainGUI extends JFrame {
 		panel_Top.add(lblTitle);
 		
 		btnKhachHang = new JButton("Khách hàng");
+		btnKhachHang.setBackground(new Color(255, 182, 193));
 		btnKhachHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CustomerGUI customerGUI = new CustomerGUI();
@@ -110,18 +113,33 @@ public class MainGUI extends JFrame {
 		panel.add(btnKhachHang);
 		
 		btnNhanVien = new JButton("Nhân viên");
+		btnNhanVien.setBackground(new Color(255, 182, 193));
+		btnNhanVien.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				StaffGUI staffGUI = new StaffGUI();
+				staffGUI.setVisible(true);
+			}
+		});
 		btnNhanVien.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnNhanVien.setIcon(new ImageIcon("D:\\VinhKha\\image\\hotel\\staff.png"));
 		btnNhanVien.setBounds(193, 94, 173, 41);
 		panel.add(btnNhanVien);
 		
 		btnPhong = new JButton("Phòng");
+		btnPhong.setBackground(new Color(255, 182, 193));
+		btnPhong.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RoomGUI roomGUI = new RoomGUI();
+				roomGUI.setVisible(true);
+			}
+		});
 		btnPhong.setIcon(new ImageIcon("D:\\VinhKha\\image\\hotel\\House-icon.png"));
 		btnPhong.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnPhong.setBounds(378, 94, 173, 41);
 		panel.add(btnPhong);
 		
 		btnQuanLy = new JButton(" Đặt phòng");
+		btnQuanLy.setBackground(new Color(255, 182, 193));
 		btnQuanLy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -139,18 +157,37 @@ public class MainGUI extends JFrame {
 		panel.add(btnQuanLy);
 		
 		btnDichVu = new JButton("Dịch vụ");
+		btnDichVu.setBackground(new Color(255, 182, 193));
+		btnDichVu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					roomManage = contractService.getRoomManage(idQLDPhong);
+					ServiceGUI serviceGUI = new ServiceGUI(roomManage);
+					serviceGUI.setVisible(true);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnDichVu.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnDichVu.setIcon(new ImageIcon("D:\\VinhKha\\image\\hotel\\service.png"));
 		btnDichVu.setBounds(744, 94, 173, 41);
 		panel.add(btnDichVu);
 		
 		btnThanhToan = new JButton("Thanh toán");
+		btnThanhToan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnThanhToan.setBackground(new Color(255, 182, 193));
 		btnThanhToan.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnThanhToan.setIcon(new ImageIcon("D:\\VinhKha\\image\\hotel\\pay.png"));
 		btnThanhToan.setBounds(927, 94, 173, 41);
 		panel.add(btnThanhToan);
 		
 		btnThoat = new JButton("Thoát");
+		btnThoat.setBackground(new Color(255, 182, 193));
 		btnThoat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);

@@ -9,9 +9,15 @@ public class ResultMessage {
 	
 	public static final String MSG_CUSTOMER = "Thêm thành công";
 	public static final String MSG_UPDATE_CUSTOMER = "Sửa thành công";
+	public static final String MSG_DELETE_CUSTOMER = "Xóa thành công";
+	
+	public static final String MSG_STAFF = "Thêm thành công";
+	public static final String MSG_UPDATE_STAFF = "Sửa thành công";
+	public static final String MSG_DELETE_STAFF = "Xóa thành công";
 	
 	public static final String MSG_ROOM = "Thêm phòng thành công";
 	public static final String MSG_UPDATE_ROOM = "Sửa phòng thành công";
+	public static final String MSG_DELETE_ROOM = "Xóa thành công";
 	
 	public static final String MSG_ADD_ROOM = "Đặt phòng thành công";
 

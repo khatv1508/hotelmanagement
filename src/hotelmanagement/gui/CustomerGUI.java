@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -23,10 +22,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import hotelmanagement.db.DBHelper;
 import hotelmanagement.model.Customer;
 import hotelmanagement.model.ResultMessage;
 import hotelmanagement.service.ContractService;
+import java.awt.Color;
 
 @SuppressWarnings("serial")
 public class CustomerGUI extends JFrame {
@@ -93,6 +92,7 @@ public class CustomerGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
+		panel.setBackground(new Color(255, 182, 193));
 		panel.setBorder(new TitledBorder(null, "Thông tin khách hàng", TitledBorder.LEADING, TitledBorder.ABOVE_TOP, null, null));
 		panel.setBounds(10, 11, 515, 181);
 		contentPane.add(panel);
@@ -158,7 +158,8 @@ public class CustomerGUI extends JFrame {
 		bg.add(nu);
 		
 		btnThem = new JButton("Thêm");
-		btnThem.setBounds(421, 23, 89, 23);
+		btnThem.setBackground(Color.WHITE);
+		btnThem.setBounds(416, 30, 89, 23);
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				customer.setHoTen(txtTen.getText());
@@ -172,17 +173,18 @@ public class CustomerGUI extends JFrame {
 				if(contractService.addCustomer(customer))
 			        	list.add(customer);
 			    showResult();
-//				AbstractMainGUI.showDialog(resultMessage);
-//			    if(resultMessage.getMsgCode() == ResultMessage.MSG_CODE_SUCCESS) {
-//			    	AbstractMainGUI.showDialog(resultMessage);
-//				}	
+				AbstractMainGUI.showDialog(resultMessage);
+			    if(resultMessage.getMsgCode() == ResultMessage.MSG_CUSTOMER) {
+			    	AbstractMainGUI.showDialog(resultMessage);
+				}	
 			}
 		});
 		btnThem.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
 		panel.add(btnThem);
 		
 		btnSua = new JButton("Sửa");
-		btnSua.setBounds(421, 55, 89, 23);
+		btnSua.setBackground(Color.WHITE);
+		btnSua.setBounds(416, 62, 89, 23);
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				customer.setHoTen(txtTen.getText());
@@ -200,16 +202,17 @@ public class CustomerGUI extends JFrame {
 						list.add(customer);
 						showResult();
 					}
-//				 if(resultMessage.getMsgCode() == ResultMessage.MSG_UPDATE_CUSTOMER) {
-//						AbstractMainGUI.showDialog(resultMessage);
-//					}
+				 if(resultMessage.getMsgCode() == ResultMessage.MSG_UPDATE_CUSTOMER) {
+						AbstractMainGUI.showDialog(resultMessage);
+					}
 			}
 		});
 		btnSua.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
 		panel.add(btnSua);
 		
 		btnXoa = new JButton("Xóa");
-		btnXoa.setBounds(421, 89, 89, 23);
+		btnXoa.setBackground(Color.WHITE);
+		btnXoa.setBounds(416, 96, 89, 23);
 		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				customer.setHoTen(txtTen.getText());
@@ -231,13 +234,14 @@ public class CustomerGUI extends JFrame {
 		panel.add(btnXoa);
 		
 		btnExit = new JButton("Thoát");
+		btnExit.setBackground(Color.WHITE);
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
 		btnExit.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
-		btnExit.setBounds(421, 123, 89, 23);
+		btnExit.setBounds(416, 130, 89, 23);
 		panel.add(btnExit);
 		
 		scrollPane = new JScrollPane();
